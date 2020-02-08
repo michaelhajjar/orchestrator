@@ -8,7 +8,7 @@
   register: randomuuidgen
 
 - set_fact:
-    hostname: '{{ naming_convention }}{{ rol }}_{{ bedrijfsnaam }}_{{ randomuuidgen.stdout|lower }}'
+    hostname: '{{ naming_convention }}{{ rol.user_input }}_{{ bedrijfsnaam }}_{{ randomuuidgen.stdout|lower }}'
 
 - name: Create the Virtual Machine on VMWare
   include_role:
