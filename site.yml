@@ -38,6 +38,10 @@
       prompt: "\nWat voor flavor heeft de VM?:\n \n- 128MB RAM, 1 core, 10GB disk (typ micro.1) \n- 256MB RAM, 1 core, 15GB disk (typ micro.2) \n- 512MB RAM, 1 core, 20GB disk (typ small.1) \n"
       private: no
 
+    - name: "menu_instances"
+      prompt: "\nHoeveel instanties wilt u hebben?: \n"
+      private: no
+
   tasks:
     - name: Setting the facts that the client has given
       set_fact:
@@ -49,9 +53,10 @@
         flavor: "{{ menu_flavor }}"
         rol: "{{ menu_vmrol }}"
         operation: "{{ menu_vm }}"
+        aantal_instanties: "{{ menu_instances }}"
 
     - pause:
-        prompt: "\nU heeft de volgende informatie ingevoerd, is dit correct (opties ja of nee): \n\nVoornaam: {{ voornaam }} \nAchternaam: {{ achternaam }} \nBedrijfsnaam: {{ bedrijfsnaam }} \nOmgeving: {{ omgeving }} \nPlatform: {{ platform }} \nFlavor: {{ flavor }} \nRol: {{ rol }} \nVirtuele Machine: {{ operation }} \n"
+        prompt: "\nU heeft de volgende informatie ingevoerd, is dit correct (opties ja of nee): \n\nVoornaam: {{ voornaam }} \nAchternaam: {{ achternaam }} \nBedrijfsnaam: {{ bedrijfsnaam }} \nOmgeving: {{ omgeving }} \nPlatform: {{ platform }} \nFlavor: {{ flavor }} \nRol: {{ rol }} \nVirtuele Machine: {{ operation }} \nAantal instanties: {{ aantal_instanties }}\n"
       register: final_information_acc
 
     - fail:
@@ -65,14 +70,6 @@
         - './vars/env/{{ omgeving }}'
         - './vars/flavors/{{ flavor }}'
 
-    - debug:
-        msg: 'Placeholder for checking inventory file of specified customer'
-
-    - set_fact:
-        hostname: '{{ naming_convention }}{{ voornaam }}_{{ achternaam }}_{{ bedrijfsnaam }}_{{ rol }}'
-
-    - name: Include task list in play only if the condition is true
+    - name: Create VM 
       include: "./playbooks/{{ platform }}/vm/{{ operation }}.yml"
-
-
-    
+      with_sequence: count='{{ aantal_instanties }}'

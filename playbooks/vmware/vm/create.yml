@@ -1,6 +1,16 @@
 --- 
-- name: Create the Virtual Machine on {{ platform }}
+- name: Generate uuid for hostname of server
+  command: uuidgen
+  register: randomuuidgen
+
+- set_fact:
+    hostname: '{{ naming_convention }}{{ rol }}_{{ bedrijfsnaam }}_{{ randomuuidgen.stdout|lower }}'
+
+- name: Create the Virtual Machine on VMWare
   include_role:
-    name: '{{ platform }}'
+    name: vmware
     tasks_from: create_vm
+
+- debug:
+    msg: 'Placeholder for adding host to inventory file of specific custer and group with vars like voornaam, achternaam etc.'
 
