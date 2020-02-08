@@ -1,6 +1,6 @@
 # Ansible default information
 ansible_username: ansible_provisioner
-ansible_password: ansible_provisioner
+ansible_ssh_private_key: /root/.ssh/id_rsa
 
 # VMWare platform information
 vmware_host: '127.0.0.1'
