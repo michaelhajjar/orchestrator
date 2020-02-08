@@ -1,4 +1,8 @@
 --- 
+- pause:
+    prompt: "Welke rol heeft VM {{ item }}?: \n\n- webserver (typ web) \n- database  (typ db) \n- load balancer  (typ lb) \n"
+  register: rol
+
 - name: Generate uuid for hostname of server
   command: uuidgen
   register: randomuuidgen
@@ -14,10 +18,6 @@
 - name: Append VM info in dict
   set_fact:
     vm_created: "{'vm_name': {{ virtualmachinecreated.instance.hw_name }}, 'vm_ipv4_addres': {{ virtualmachinecreated.instance.ipv4 }} }"
-
-- pause:
-    prompt: "Welke rol heeft VM {{ hostname}}.{{ domain}}?: \n\n- webserver (typ web) \n- database  (typ db) \n- load balancer  (typ lb) \n"
-  register: rol
 
 - name: Add the new VM to a in-memory inventory
   add_host:
