@@ -1,5 +1,6 @@
 omgeving: acceptatie
 naming_convention: acc_
+domain: acceptatie.local
 
 # VMWare platform information
 vmware_folder: acceptatie

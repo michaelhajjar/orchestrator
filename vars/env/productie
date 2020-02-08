@@ -1,5 +1,6 @@
 omgeving: productie
 naming_convention: prd_
+domain: productie.local
 
 # VMWare platform information
 vmware_folder: productie

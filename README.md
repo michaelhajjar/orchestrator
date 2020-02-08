@@ -7,6 +7,7 @@ De playbooks zijn getest met de volgende configuratie:
 
 Ansible 2.9.3 (python 3)
 pyvmomi 6.7 (python 3)
+uuidgen
 VMWare Vcenter 6.7u1
 ```
 

@@ -27,3 +27,4 @@
       device_type: vmxnet3
       start_connected: True
     wait_for_ip_address: yes
+  register: virtualmachinecreated

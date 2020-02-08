@@ -1,5 +1,6 @@
 omgeving: ontwikkel
 naming_convention: ontwikkel_
+domain: ontwikkel.local
 
 # VMWare platform information
 vmware_folder: ontwikkel

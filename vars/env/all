@@ -1,3 +1,7 @@
+# Ansible default information
+ansible_username: ansible_provisioner
+ansible_password: ansible_provisioner
+
 # VMWare platform information
 vmware_host: '127.0.0.1'
 vmware_user: 'vsphere.local\administrator'

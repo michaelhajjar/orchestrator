@@ -1,5 +1,6 @@
 omgeving: test
 naming_convention: test_
+domain: test.local
 
 # VMWare platform information
 vmware_folder: test
