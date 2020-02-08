@@ -9,8 +9,8 @@
     datacenter: "{{ vmware_datacenter }}"
     name: "{{ hostname }}"
     state: poweredon
-    guest_id: "{{ vmware_guest_id_name }}"
     esxi_hostname: "{{ vmware_esxi }}"
+    template: centos7_template
     disk:
     - size_gb: "{{ disk }}"
       type: thin
@@ -20,9 +20,9 @@
       num_cpus: "{{ cpu }}"
       scsi: paravirtual
     cdrom:
-      type: iso
-      iso_path: "{{ vmware_iso_path }}"
+      type: none
+      state: absent
     networks:
     - name: "{{ vmware_network }}"
       device_type: vmxnet3
-    wait_for_ip_address: yes
+      start_connected: True

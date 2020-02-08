@@ -1,5 +1,6 @@
----
+--- 
 - name: Create the Virtual Machine on {{ platform }}
   include_role:
     name: '{{ platform }}'
     tasks_from: create_vm
+

@@ -1,0 +1,132 @@
+install
+cdrom
+lang en_US.UTF-8
+keyboard us
+unsupported_hardware
+network --bootproto=dhcp --hostname localhost.localhost
+rootpw ansible_provisioner
+firewall --disabled
+selinux --permissive
+timezone Europe/Prague
+unsupported_hardware
+bootloader --location=mbr
+text
+skipx
+zerombr
+clearpart --all --initlabel
+
+#Disk partitioning information
+part /boot --fstype ext4 --size=2048
+part swap  --asprimary   --size=8192
+part /     --fstype ext4 --size=1 --grow
+
+auth --enableshadow --passalgo=sha512 --kickstart
+firstboot --disabled
+eula --agreed
+services --enabled=NetworkManager,sshd
+reboot
+user --name=ansible_provisioner --plaintext --password ansible_provisioner --groups=ansible_provisioner,wheel
+
+repo --name=base --baseurl=http://mirror.centos.org/centos/7.3.1611/os/x86_64/
+repo --name=epel-release --baseurl=http://anorien.csc.warwick.ac.uk/mirrors/epel/7/x86_64/
+repo --name=elrepo-kernel --baseurl=http://elrepo.org/linux/kernel/el7/x86_64/
+repo --name=elrepo-release --baseurl=http://elrepo.org/linux/elrepo/el7/x86_64/
+repo --name=elrepo-extras --baseurl=http://elrepo.org/linux/extras/el7/x86_64/
+
+%packages --ignoremissing --excludedocs
+@Base
+@Core
+-abrt-libs
+-abrt-tui
+-abrt-cli
+-abrt
+-abrt-addon-python
+-abrt-addon-ccpp
+-abrt-addon-kerneloops
+-kernel
+-kernel-devel
+-kernel-tools-libs
+-kernel-tools
+-kernel-headers
+-aic94xx-firmware
+-atmel-firmware
+-b43-openfwwf
+-bfa-firmware
+-ipw2100-firmware
+-ipw2200-firmware
+-ivtv-firmware
+-iwl100-firmware
+-iwl105-firmware
+-iwl135-firmware
+-iwl1000-firmware
+-iwl2000-firmware
+-iwl2030-firmware
+-iwl3160-firmware
+-iwl3945-firmware
+-iwl4965-firmware
+-iwl5000-firmware
+-iwl5150-firmware
+-iwl6000-firmware
+-iwl6000g2a-firmware
+-iwl6000g2b-firmware
+-iwl6050-firmware
+-iwl7260-firmware
+-libertas-usb8388-firmware
+-libertas-sd8686-firmware
+-libertas-sd8787-firmware
+-ql2100-firmware
+-ql2200-firmware
+-ql23xx-firmware
+-ql2400-firmware
+-ql2500-firmware
+-rt61pci-firmware
+-rt73usb-firmware
+-xorg-x11-drv-ati-firmware
+-zd1211-firmware
+-iprutils
+-fprintd-pam
+-intltool
+
+# unnecessary firmware
+-aic94xx-firmware
+-atmel-firmware
+-b43-openfwwf
+-bfa-firmware
+-ipw2100-firmware
+-ipw2200-firmware
+-ivtv-firmware
+-iwl100-firmware
+-iwl1000-firmware
+-iwl3945-firmware
+-iwl4965-firmware
+-iwl5000-firmware
+-iwl5150-firmware
+-iwl6000-firmware
+-iwl6000g2a-firmware
+-iwl6050-firmware
+-libertas-usb8388-firmware
+-ql2100-firmware
+-ql2200-firmware
+-ql23xx-firmware
+-ql2400-firmware
+-ql2500-firmware
+-rt61pci-firmware
+-rt73usb-firmware
+-xorg-x11-drv-ati-firmware
+-zd1211-firmware
+%end
+
+%post
+yum update -y
+yum install -y sudo
+echo "ansible_provisioner        ALL=(ALL)       NOPASSWD: ALL" >> /etc/sudoers.d/ansible_provisioner
+sed -i "s/^.*requiretty/#Defaults requiretty/" /etc/sudoers
+yum clean all
+
+/bin/mkdir /home/ansible_provisioner/.ssh
+/bin/chmod 700 /home/ansible_provisioner/.ssh
+/bin/echo -e 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDw29VPB7LhrkFXMBbrr4qUVLmx/MgByiZqJEWchLsZiuLdBBYQVELaxuwT1prrt1Yz1bauf1D5izyur8vkPLf4M0TnVUdqUZ4J6M8R67PEOII+81aF60aoAzI6o4h8vxv3kpWNyBl+zz99GPXFOnTgilsI2BSnffugplMVtm697eBI6wdnLZHfHuzNyZluizCyi8b/GOgfFvSfHkZ0BWRxmk33lclb5y/90H2Vh2XUpthky+RipbQcslC9WBrRzrhyJhAAovDysVX62NHSCE8UVM43ntczo67SAIWvrvV+ABhQ7lGqUomEtOJIF67qeuovlTCajwDtkQBknvhDdwCL insecure public key' > /home/ansible_provisioner/.ssh/authorized_keys
+/bin/chown -R ansible_provisioner:ansible_provisioner /home/ansible_provisioner/.ssh
+/bin/chmod 0400 /home/ansible_provisioner/.ssh/*
+
+%end
