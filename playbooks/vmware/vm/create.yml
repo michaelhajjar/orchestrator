@@ -24,4 +24,4 @@
 
 - hostname:
     name: '{{ hostname}}.{{ domain}}'
-  delegate_to: just_created
+  delegate_to: '{{ virtualmachinecreated.instance.ipv4 }}'
