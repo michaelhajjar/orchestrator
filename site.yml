@@ -74,3 +74,9 @@
     - name: Run operation '{{ operation }}' 
       include: "./playbooks/{{ platform }}/vm/{{ operation }}.yml"
       with_sequence: count='{{ aantal_instanties }}'
+  
+- name: Start the orchestrator!
+  hosts: '{{ bedrijfsnaam }}_{{ rol }}_{{ omgeving }}'
+  tasks:
+    - name: test
+      command: hostname
