@@ -76,7 +76,7 @@
       with_sequence: count='{{ aantal_instanties }}'
   
 - name: Start the orchestrator!
-  hosts: '{{ bedrijfsnaam }}_{{ rol }}_{{ omgeving }}'
+  hosts: "{{ hostvars['localhost']['bedrijfsnaam'] }}_{{ hostvars['localhost']['rol'] }}_{{ hostvars['localhost']['omgeving'] }}" 
   tasks:
     - name: test
       command: hostname
