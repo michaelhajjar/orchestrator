@@ -40,5 +40,5 @@ backend {{ haproxy_backend_name }}
 {% endif %}
     cookie SERVERID insert indirect
 {% for backend in groups['{{ bedrijfsnaam }}_{{ rol.user_input }}_{{ omgeving }}'] %}
-    server {{ hostvars[backend]['inventory_hostname_short'] }} {{ hostvars[backend]['ansible_host'] }} cookie {{ hostvars[backend]['inventory_hostname_short'] }} check
+    server {{ hostvars[backend]['inventory_hostname_short'] }} {{ hostvars[backend]['ansible_host'] }}:{{ haproxy_frontend_port }} cookie {{ hostvars[backend]['inventory_hostname_short'] }} check
 {% endfor %}
