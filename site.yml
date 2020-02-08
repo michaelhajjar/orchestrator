@@ -1,5 +1,5 @@
 ---
-- name: Start the orchestrator!
+- name: Start de orchestrator!
   hosts: localhost
   vars_prompt:
     - name: "menu_klant"
@@ -23,7 +23,7 @@
       private: no
 
     - name: "menu_vmrol"
-      prompt: "Welke rol heeft de VM?: \n\n- webserver (typ web) \n- database  (typ db) \n"
+      prompt: "Welke rol heeft de VM?: \n\n- webserver (typ web) \n- database  (typ db) \n- load balancer  (typ lb) \n"
       private: no
 
     - name: "menu_env"
@@ -61,7 +61,7 @@
       register: final_information_acc
 
     - fail:
-        msg: U heeft nee ingevuld bij de informatie. Voer de Orchestrator opnieuw uit.
+        msg: U heeft nee ingevuld. Voer de Orchestrator opnieuw uit.
       when: final_information_acc.user_input == 'nee'
     
     - name: Include vars
@@ -75,8 +75,7 @@
       include: "./playbooks/{{ platform }}/vm/{{ operation }}.yml"
       with_sequence: count='{{ aantal_instanties }}'
   
-- name: Start the orchestrator!
+- name: Install / Configure {{ hostvars['localhost']['rol'] }}
   hosts: "{{ hostvars['localhost']['bedrijfsnaam'] }}_{{ hostvars['localhost']['rol'] }}_{{ hostvars['localhost']['omgeving'] }}" 
-  tasks:
-    - name: test
-      command: hostname
+  roles:
+    - "{{ hostvars['localhost']['rol'] }}"
