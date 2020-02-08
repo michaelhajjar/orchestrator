@@ -1,14 +1,12 @@
-platform:
-  vmware:
-    host: https://192.168.1.50
-    user: administrator
-    password: Welkom01!
-    validate: no
-    datacenter: DC01
-    datastore: localstorage2
-    cluster: cluster1
-    folder: ontwikkel
-    network: 'VM Network'
-    esxi: 192.168.1.102
-    iso_path: 
-    guest_id_name: centos64Guest
+# VMWare platform information
+vmware_host: 'https://localhost'
+vmware_user: 'vsphere.local\administrator'
+vmware_password: Welkom01!
+vmware_validate: no
+vmware_datacenter: DC01
+vmware_datastore: localstorage2
+vmware_cluster: cluster
+vmware_network: 'VM Network'
+vmware_esxi: 192.168.1.102
+vmware_iso_path: '[localstorage2] iso/centos7.iso'
+vmware_guest_id_name: centos64Guest

@@ -64,5 +64,15 @@
         - './vars/env/all'
         - './vars/env/{{ omgeving }}'
         - './vars/flavors/{{ flavor }}'
-    
+
+    - debug:
+        msg: 'Placeholder for checking inventory file of specified customer'
+
+    - set_fact:
+        hostname: '{{ naming_convention }}{{ voornaam }}_{{ achternaam }}_{{ bedrijfsnaam }}_{{ rol }}'
+
     - name: Create the Virtual Machine on {{ platform }}
+      include_role:
+        name: '{{ platform }}'
+        tasks_from: create_vm
+    

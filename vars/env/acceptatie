@@ -1,1 +1,5 @@
 omgeving: acceptatie
+naming_convention: acc_
+
+# VMWare platform information
+vmware_folder: acceptatie

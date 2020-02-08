@@ -1,1 +1,5 @@
 omgeving: test
+naming_convention: test_
+
+# VMWare platform information
+vmware_folder: test
