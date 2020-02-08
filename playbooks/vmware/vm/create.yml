@@ -21,6 +21,7 @@
     groups: just_created
     ansible_ssh_user: '{{ ansible_username }}'
     ansible_ssh_private_key: '{{ ansible_ssh_private_key }}'
+    ansible_become: true
 
 - name: set fqdn in OS
   command: hostnamectl set-hostname '{{ hostname}}.{{ domain}}'
