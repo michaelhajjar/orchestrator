@@ -17,7 +17,7 @@
 
 - name: Add the new VM to a in-memory inventory
   add_host:
-    name: '{{ vm_created.vm_ipv4_address }}'
+    name: '{{ vm_created.vm_ipv4_addres }}'
     groups: vm_group
     ansible_ssh_user: '{{ ansible_username }}'
     ansible_ssh_private_key: '{{ ansible_ssh_private_key }}'
@@ -26,12 +26,12 @@
 - name: set fqdn in OS
   command: hostnamectl set-hostname '{{ hostname}}.{{ domain}}'
   register: hostnamecmd
-  delegate_to: '{{ vm_created.vm_ipv4_address }}'
+  delegate_to: '{{ vm_created.vm_ipv4_addres }}'
 
 - name: Ensure that '{{ hostname }}' is in '{{ rol }}' section of the inventory file 
   ini_file:
     path: './inventories/{{ omgeving}}/{{ bedrijfsnaam }}.ini'
     section: '{{ rol }}'
-    option: '{{ hostname}}.{{ domain}} ansible_host={{ vm_created.vm_ipv4_address }}'
+    option: '{{ hostname}}.{{ domain}} ansible_host={{ vm_created.vm_ipv4_addres }}'
     allow_no_value: yes
     create: yes
