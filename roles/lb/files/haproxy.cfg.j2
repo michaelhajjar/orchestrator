@@ -39,6 +39,6 @@ backend {{ haproxy_backend_name }}
     option httpchk {{ haproxy_backend_httpchk }}
 {% endif %}
     cookie SERVERID insert indirect
-{% for backend in haproxy_backend_servers %}
-    server {{ backend.name }} {{ backend.address }} cookie {{ backend.name }} check
+{% for backend in groups['{{ bedrijfsnaam }}_{{ rol.user_input }}_{{ omgeving }}'] %}
+    server {{ hostvars[backend]['inventory_hostname_short'] }} {{ hostvars[backend]['ansible_host'] }} cookie {{ hostvars[backend]['inventory_hostname_short'] }} check
 {% endfor %}
