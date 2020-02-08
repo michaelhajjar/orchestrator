@@ -1,5 +1,5 @@
 # VMWare platform information
-vmware_host: 'https://localhost'
+vmware_host: '127.0.0.1'
 vmware_user: 'vsphere.local\administrator'
 vmware_password: Welkom01!
 vmware_validate: no

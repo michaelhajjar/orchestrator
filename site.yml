@@ -19,7 +19,7 @@
       private: no
 
     - name: "menu_vm"
-      prompt: "Wat wilt u doen?: \n\n- een VM aanmaken    (typ aanmaken) \n- een VM aanpassen   (typ aanpassen) \n- een VM verwijderen (typ verwijderen) \n"
+      prompt: "Wat wilt u doen?: \n\n- een VM aanmaken    (typ create) \n- een VM aanpassen   (typ modify) \n- een VM verwijderen (typ delete) \n"
       private: no
 
     - name: "menu_vmrol"
@@ -71,8 +71,8 @@
     - set_fact:
         hostname: '{{ naming_convention }}{{ voornaam }}_{{ achternaam }}_{{ bedrijfsnaam }}_{{ rol }}'
 
-    - name: Create the Virtual Machine on {{ platform }}
-      include_role:
-        name: '{{ platform }}'
-        tasks_from: create_vm
+    - name: Include task list in play only if the condition is true
+      include: "./playbooks/{{ platform }}/vm/{{ operation }}.yml"
+
+
     
