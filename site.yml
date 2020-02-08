@@ -1,0 +1,49 @@
+---
+- name: Start the orchestrator!
+  hosts: localhost
+  vars_prompt:
+    - name: "menu_klant"
+      prompt: "Welkom bij de orchestrator van Michael Hajjar!\nde orchestrator is gemaakt voor VM2 en heeft als doel snel virtuele machines aan te maken.\nVoordat u een VM kunt aanvragen, hebben wij informatie nodig.\nVolg de wizard en vul de vragen in (het kan 10 minuten duren, totdat een VM is aangemaakt).\n\nBent u een bestaande klant of een nieuwe klant?:\n \n- Bestaande klant (typ bestaand) \n- Nieuwe klant    (typ nieuw) \n"
+      private: no
+
+    - name: "menu_voornaam"
+      prompt: "\nWat is uw voornaam?: \n"
+      private: no
+
+    - name: "menu_achternaam"
+      prompt: "\nWat is uw achternaam?: \n"
+      private: no
+
+    - name: "menu_bedrijfsnaam"
+      prompt: "\nWat is uw bedrijfsnaam?: \n"
+      private: no
+
+    - name: "menu_vm"
+      prompt: "Wat wilt u doen?: \n\n- een VM aanmaken    (typ aanmaken) \n- een VM aanpassen   (typ aanpassen) \n- een VM verwijderen (typ verwijderen) \n"
+      private: no
+
+    - name: "menu_env"
+      prompt: "\nIn welke omgeving wilt u de VM aannmaken, aanpassen of verwijderen?:\n \n- ontwikkel  (typ ontwikkel) \n- test      (typ test) \n- acceptatie (typ acceptatie) \n- productie  (typ productie) \n"
+      private: no
+
+    - name: "menu_platform"
+      prompt: "\nOp welke platform wilt u de VM aannmaken, aanpassen of verwijderen?:\n \n- VMWare (typ vmware) \n- Azure  (typ azure) \n- AWS    (typ aws)\n"
+      private: no
+
+  tasks:
+    - name: Setting the facts that the client has given
+      set_fact:
+        voornaam: "{{ menu_voornaam|lower }}"
+        achternaam: "{{ menu_achternaam|lower }}"
+        bedrijfsnaam: "{{ menu_bedrijfsnaam|lower }}"
+        omgeving: "{{ menu_env }}"
+        platform: "{{ menu_platform }}"
+        operation: "{{ menu_vm }}"
+
+    - pause:
+        prompt: "u heeft de volgende informatie ingevoerd, is dit correct (opties ja of nee):\nVoornaam: {{ voornaam }}\nAchternaam: {{ achternaam }}\nBedrijfsnaam: {{ bedrijfsnaam }}\nOmgeving: {{ omgeving }}\nPlatform: {{ platform }}\nVirtuele Machine: {{ operation }}\n"
+      register: final_information_acc
+
+    - fail:
+        msg: U heeft nee ingevuld bij de informatie. Voer de Orchestrator opnieuw uit.
+      when: final_information_acc.user_input == 'nee'
