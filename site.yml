@@ -22,10 +22,6 @@
       prompt: "Wat wilt u doen?: \n\n- een VM aanmaken    (typ create) \n- een VM aanpassen   (typ modify) \n- een VM verwijderen (typ delete) \n"
       private: no
 
-    - name: "menu_vmrol"
-      prompt: "Welke rol heeft de VM?: \n\n- webserver (typ web) \n- database  (typ db) \n- load balancer  (typ lb) \n"
-      private: no
-
     - name: "menu_env"
       prompt: "\nIn welke omgeving wilt u de VM aannmaken, aanpassen of verwijderen?:\n \n- ontwikkel  (typ ontwikkel) \n- test       (typ test) \n- acceptatie (typ acceptatie) \n- productie  (typ productie) \n"
       private: no
@@ -51,13 +47,12 @@
         omgeving: "{{ menu_env }}"
         platform: "{{ menu_platform }}"
         flavor: "{{ menu_flavor }}"
-        rol: "{{ menu_vmrol }}"
         operation: "{{ menu_vm }}"
         aantal_instanties: "{{ menu_instances }}"
         final_vm_created: []
 
     - pause:
-        prompt: "\nU heeft de volgende informatie ingevoerd, is dit correct (opties ja of nee): \n\nVoornaam: {{ voornaam }} \nAchternaam: {{ achternaam }} \nBedrijfsnaam: {{ bedrijfsnaam }} \nOmgeving: {{ omgeving }} \nPlatform: {{ platform }} \nFlavor: {{ flavor }} \nRol: {{ rol }} \nVirtuele Machine: {{ operation }} \nAantal instanties: {{ aantal_instanties }} \n\n"
+        prompt: "\nU heeft de volgende informatie ingevoerd, is dit correct (opties ja of nee): \n\nVoornaam: {{ voornaam }} \nAchternaam: {{ achternaam }} \nBedrijfsnaam: {{ bedrijfsnaam }} \nOmgeving: {{ omgeving }} \nPlatform: {{ platform }} \nFlavor: {{ flavor }} \nVirtuele Machine: {{ operation }} \nAantal instanties: {{ aantal_instanties }} \n\n"
       register: final_information_acc
 
     - fail:
@@ -74,8 +69,3 @@
     - name: Run operation '{{ operation }}' 
       include: "./playbooks/{{ platform }}/vm/{{ operation }}.yml"
       with_sequence: count='{{ aantal_instanties }}'
-  
-- name: Install / Configure {{ hostvars['localhost']['rol'] }}
-  hosts: "{{ hostvars['localhost']['bedrijfsnaam'] }}_{{ hostvars['localhost']['rol'] }}_{{ hostvars['localhost']['omgeving'] }}" 
-  roles:
-    - "{{ hostvars['localhost']['rol'] }}"
