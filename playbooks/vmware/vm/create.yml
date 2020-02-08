@@ -4,7 +4,6 @@
   register: randomuuidgen
 
 - set_fact:
-    vm_created: {}
     hostname: '{{ naming_convention }}{{ rol }}_{{ bedrijfsnaam }}_{{ randomuuidgen.stdout|lower }}'
 
 - name: Create the Virtual Machine on VMWare
@@ -12,13 +11,14 @@
     name: vmware
     tasks_from: create_vm
 
-- debug:
-    msg: 'IP adres: {{ virtualmachinecreated.instance.ipv4 }}, hostname: {{ virtualmachinecreated.instance.hw_name }} Placeholder for adding host to inventory file of specific custer and group with vars like voornaam, achternaam etc.'
+- name: Append VM info in dict
+  set_fact:
+    vm_created: "{'vm_name': {{ virtualmachinecreated.instance.hw_name }}, 'vm_ipv4_addres': {{ virtualmachinecreated.instance.ipv4 }} }"
 
 - name: Add the new VM to a in-memory inventory
   add_host:
-    name: '{{ virtualmachinecreated.instance.ipv4 }}'
-    groups: just_created
+    name: '{{ vm_created.vm_ipv4_address }}'
+    groups: vm_group
     ansible_ssh_user: '{{ ansible_username }}'
     ansible_ssh_private_key: '{{ ansible_ssh_private_key }}'
     ansible_become: true
@@ -26,4 +26,4 @@
 - name: set fqdn in OS
   command: hostnamectl set-hostname '{{ hostname}}.{{ domain}}'
   register: hostnamecmd
-  delegate_to: '{{ virtualmachinecreated.instance.ipv4 }}'
+  delegate_to: '{{ vm_created.vm_ipv4_address }}'
