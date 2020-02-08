@@ -1,0 +1,27 @@
+- name: Create a VM on a specific ESXi
+  vmware_guest:
+    hostname: "{{ platform['vmware']['host'] }}"
+    username: "{{ platform['vmware']['user'] }}"
+    password: "{{ platform['vmware']['password'] }}"
+    validate_certs: "{{ platform['vmware']['validate'] }}"
+    folder: "{{ platform['vmware']['folder'] }}"
+    name: "{{ hostname }}"
+    state: poweredon
+    guest_id: "{{ guest_id_name }}"
+    esxi_hostname: "{{ platform['vmware']['esxi'] }}"
+    disk:
+    - size_gb: "{{ disk }}"
+      type: thin
+      datastore: "{{ platform['vmware']['datastore'] }}"
+    hardware:
+      memory_mb: "{{ memory }}"
+      num_cpus: "{{ cpu }}"
+      scsi: paravirtual
+    cdrom:
+      type: iso
+      iso_path: "{{ iso_path }}"
+    networks:
+    - name: "{{ platform['vmware']['network'] }}"
+      device_type: vmxnet3
+    wait_for_ip_address: yes
+  delegate_to: localhost
