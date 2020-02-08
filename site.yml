@@ -71,6 +71,6 @@
         - './vars/env/{{ omgeving }}'
         - './vars/flavors/{{ flavor }}'
 
-    - name: Create VM 
+    - name: Run operation '{{ operation }}' 
       include: "./playbooks/{{ platform }}/vm/{{ operation }}.yml"
       with_sequence: count='{{ aantal_instanties }}'
