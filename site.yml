@@ -57,7 +57,7 @@
         final_vm_created: []
 
     - pause:
-        prompt: "\nU heeft de volgende informatie ingevoerd, is dit correct (opties ja of nee): \n\nVoornaam: {{ voornaam }} \nAchternaam: {{ achternaam }} \nBedrijfsnaam: {{ bedrijfsnaam }} \nOmgeving: {{ omgeving }} \nPlatform: {{ platform }} \nFlavor: {{ flavor }} \nRol: {{ rol }} \nVirtuele Machine: {{ operation }} \nAantal instanties: {{ aantal_instanties }}\n"
+        prompt: "\nU heeft de volgende informatie ingevoerd, is dit correct (opties ja of nee): \n\nVoornaam: {{ voornaam }} \nAchternaam: {{ achternaam }} \nBedrijfsnaam: {{ bedrijfsnaam }} \nOmgeving: {{ omgeving }} \nPlatform: {{ platform }} \nFlavor: {{ flavor }} \nRol: {{ rol }} \nVirtuele Machine: {{ operation }} \nAantal instanties: {{ aantal_instanties }} \n\n"
       register: final_information_acc
 
     - fail:
