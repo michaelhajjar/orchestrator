@@ -5,7 +5,7 @@
     username: "{{ vmware_user }}"
     password: "{{ vmware_password }}"
     validate_certs: "{{ vmware_validate }}"
-    folder: "{{ vmware_folder }}"
+    folder: "{{ vmware_folder }}/{{ bedrijfsnaam }}"
     datacenter: "{{ vmware_datacenter }}"
     name: "{{ hostname }}"
     state: poweredon

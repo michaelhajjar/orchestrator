@@ -10,6 +10,11 @@
 - set_fact:
     hostname: '{{ naming_convention }}{{ rol.user_input }}_{{ bedrijfsnaam }}_{{ randomuuidgen.stdout|lower }}'
 
+- name: Create sub folder if it does not exist
+  include_role:
+    name: vmware
+    tasks_from: create_sub_folder
+
 - name: Create the Virtual Machine on VMWare
   include_role:
     name: vmware

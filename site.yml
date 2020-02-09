@@ -3,27 +3,27 @@
   hosts: localhost
   tasks:
     - pause:
-        prompt: "Welkom bij de orchestrator van Michael Hajjar!\nde orchestrator is gemaakt voor VM2 en heeft als doel snel virtuele machines aanmaken, aanpassen of verwijderen.\nVoordat u een VM kunt aanvragen, hebben wij informatie nodig.\nVolg de wizard en vul de vragen in (het kan 10 minuten duren voordat een actie is uitgevoerd).\n\nBent u een bestaande klant of een nieuwe klant?\n \n- Bestaande klant (typ bestaand) \n- Nieuwe klant    (typ nieuw) \n\n"
+        prompt: "Welkom bij de orchestrator van Michael Hajjar!\nde orchestrator is gemaakt voor VM2 en heeft als doel snel virtuele machines aanmaken, aanpassen of verwijderen.\nVoordat u een VM kunt aanvragen, hebben wij informatie nodig.\nVolg de wizard en vul de vragen in (het kan 10 minuten duren voordat een actie is uitgevoerd).\n\nBent u een bestaande klant of een nieuwe klant?\n \n- Bestaande klant (typ bestaand) \n- Nieuwe klant    (typ nieuw)\n"
       register: menu_klant
 
     - pause:
-        prompt: "\nWat is uw voornaam? \n"
+        prompt: "\nWat is uw voornaam?\n"
       register: menu_voornaam
 
     - pause:
-        prompt: "\nWat is uw achternaam? \n"
+        prompt: "\nWat is uw achternaam?\n"
       register: menu_achternaam
 
     - pause:
-        prompt: "\nWat is uw bedrijfsnaam? \n"
+        prompt: "\nWat is uw bedrijfsnaam?\n"
       register: menu_bedrijfsnaam
 
     - pause:
-        prompt: "Wat wilt u doen? \n\n- een VM aanmaken    (typ create) \n- een VM aanpassen   (typ modify) \n- een VM verwijderen (typ delete) \n"
+        prompt: "Wat wilt u doen? \n\n- een VM aanmaken    (typ create) \n- een VM aanpassen   (typ modify) \n- een VM verwijderen (typ delete)\n"
       register: menu_vm
 
     - pause:
-        prompt: "\nIn welke omgeving wilt u de VM aannmaken, aanpassen of verwijderen? \n \n- ontwikkel  (typ ontwikkel) \n- test       (typ test) \n- acceptatie (typ acceptatie) \n- productie  (typ productie) \n"
+        prompt: "\nIn welke omgeving wilt u de VM aannmaken, aanpassen of verwijderen? \n \n- ontwikkel  (typ ontwikkel) \n- test       (typ test) \n- acceptatie (typ acceptatie) \n- productie  (typ productie)\n"
       register: menu_env
 
     - pause:
@@ -31,12 +31,12 @@
       register: menu_platform
 
     - pause:
-        prompt: "\nWat voor flavor heeft de VM? \n \n- 128MB RAM, 1 core, 10GB disk (typ micro.1) \n- 256MB RAM, 1 core, 15GB disk (typ micro.2) \n- 512MB RAM, 1 core, 20GB disk (typ small.1) \n"
+        prompt: "\nWat voor flavor heeft de VM? \n \n- 128MB RAM, 1 core, 10GB disk (typ micro.1) \n- 256MB RAM, 1 core, 15GB disk (typ micro.2) \n- 512MB RAM, 1 core, 20GB disk (typ small.1)\n"
       register: menu_flavor
       when: menu_vm.user_input == 'create'
 
     - pause:
-        prompt: "\nHoeveel instanties wilt u hebben? \n"
+        prompt: "\nHoeveel instanties wilt u hebben?\n"
       register: menu_instances 
       when: menu_vm.user_input == 'create' 
 
@@ -54,7 +54,7 @@
         final_vm_created: []
 
     - pause:
-        prompt: "\nU heeft de volgende informatie ingevoerd, is dit correct (typ ja of nee): \n\nVoornaam: {{ voornaam }} \nAchternaam: {{ achternaam }} \nBedrijfsnaam: {{ bedrijfsnaam }} \nOmgeving: {{ omgeving }} \nPlatform: {{ platform }} \nFlavor: {{ flavor }} \nActie: {{ operation }} VM \nAantal instanties: {{ aantal_instanties }} \n\n"
+        prompt: "\nU heeft de volgende informatie ingevoerd, is dit correct (typ ja of nee): \n\nVoornaam: {{ voornaam }} \nAchternaam: {{ achternaam }} \nBedrijfsnaam: {{ bedrijfsnaam }} \nOmgeving: {{ omgeving }} \nPlatform: {{ platform }} \nFlavor: {{ flavor }} \nActie: {{ operation }} VM \nAantal instanties: {{ aantal_instanties }}\n"
       register: final_information_acc
 
     - fail:
@@ -119,4 +119,4 @@
     - name: Run operation delete 
       include: "./playbooks/{{ platform }}/vm/delete.yml"
       loop: '{{ final_vm_list }}'
-      when: operation == 'delete' 
+      when: operation == 'delete'

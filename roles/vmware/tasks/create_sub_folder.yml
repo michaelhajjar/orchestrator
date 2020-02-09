@@ -1,0 +1,11 @@
+---
+- name: Create a sub folder under VM folder on given datacenter
+  vcenter_foldervcenter_folder:
+    hostname: "{{ vmware_host }}"
+    username: "{{ vmware_user }}"
+    password: "{{ vmware_password }}"
+    validate_certs: "{{ vmware_validate }}"
+    datacenter_name: "{{ vmware_datacenter }}"
+    folder_name: '{{ bedrijfsnaam }}'
+    parent_folder: '{{ vmware_folder }}'
+    state: present
