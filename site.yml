@@ -79,4 +79,4 @@
     - name: Run operation delete 
       include: "./playbooks/{{ platform }}/vm/delete.yml"
       with_sequence: count='{{ aantal_instanties }}'
-      when: operation == 'create' 
+      when: operation == 'delete' 

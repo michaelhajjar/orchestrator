@@ -11,8 +11,13 @@ uuidgen
 VMWare Vcenter 6.7u1
 ```
 
-## Usage
+## Prerequesites
 ``` 
+Clone dit project en vul de env variabelen in in map vars/env/.
+Maak een map genaamd 'inventories' en maak hierin een file aan genaamd 'provisioner.ini'.
+
+Zorg ervoor dat de volgende regel in de file komt:
+localhost ansible_connection=local ansible_python_interpreter=/usr/bin/python3
 ``` 
 
 ## Test/Debug

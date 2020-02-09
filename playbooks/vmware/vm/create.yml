@@ -31,8 +31,6 @@
   command: hostnamectl set-hostname '{{ hostname}}.{{ domain}}'
   register: hostnamecmd
   delegate_to: '{{ virtualmachinecreated.instance.ipv4 }}'
-  vars:
-    ansible_python_interpreter: /usr/bin/python
 
 - name: Ensure that '{{ hostname }}' is in '{{ rol.user_input }}' section of the inventory file 
   ini_file:
