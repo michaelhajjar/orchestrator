@@ -19,6 +19,8 @@
     mode: 0644
     validate: haproxy -f %s -c -q
   notify: restart haproxy
+  vars:
+    inv_group_name: "{{ bedrijfsnaam }}_{{ rol.user_input }}_{{ omgeving }}"
   
 - name: Ensure HAProxy is started and enabled on boot.
   service: name=haproxy state=started enabled=yes

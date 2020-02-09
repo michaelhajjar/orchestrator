@@ -39,7 +39,6 @@ backend {{ haproxy_backend_name }}
     option httpchk {{ haproxy_backend_httpchk }}
 {% endif %}
     cookie SERVERID insert indirect
-{% set group_for_loop = {{ bedrijfsnaam }}_{{ rol.user_input }}_{{ omgeving }} %}
-{% for backend in groups[group_for_loop] %}
+{% for backend in groups[inv_group_name] %}
     server {{ hostvars[backend]['inventory_hostname_short'] }} {{ hostvars[backend]['ansible_host'] }}:{{ haproxy_frontend_port }} cookie check
 {% endfor %}
