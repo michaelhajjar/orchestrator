@@ -11,6 +11,10 @@ uuidgen
 VMWare Vcenter 6.7u1
 ```
 
+## Usage
+``` 
+``` 
+
 ## Test/Debug
 ```
 Gebruik de volgende commando om snel te debuggen:
