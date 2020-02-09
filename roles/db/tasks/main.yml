@@ -1,9 +1,9 @@
 ---
 - name: Install MySQL on server
-  action: yum name={{ item }}
-  with_items:
-    - 'https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm'
-    - mysql-community-server
+  action: yum name='https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm'
+
+- name: Install MySQL on server
+  action: yum name=mysql-community-server
 
 - name: Start the MySQL service
   action: service name=mysqld state=started
