@@ -1,3 +1,8 @@
+- name: Set default fact for deleting VM
+  set_fact:
+    specific_vm_choice: {'user_input': 'ja'}
+  when: yes_to_all_vm_delete == 'ja'
+
 - pause:
     prompt: 'Weet je zeker dat VM: {{ item }} verwijderd moet worden? (typ ja of nee)'
   register: specific_vm_choice
