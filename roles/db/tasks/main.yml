@@ -1,10 +1,13 @@
 ---
-- name: Install MySQL on server
+- name: Install MySQL repository
   action: yum name='https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm'
 
-- name: Install MySQL on server
+- name: Install MySQL Community Server
   action: yum name=mysql-community-server
 
+- name: Install MySQL python dependecie
+  action: yum name=MySQL-python
+  
 - name: Start the MySQL service
   action: service name=mysqld state=started
 
