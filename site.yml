@@ -79,18 +79,21 @@
         final_vm_list: '{{ final_vm_list + [hostvars[item]["inventory_hostname_short"]] }}'
       loop: '{{ groups[inventory_group_name_web] }}'
       when: operation == 'delete'
+      ignore_errors: True
 
     - name: Create list of db virtual machines that belong to customer
       set_fact:
         final_vm_list: '{{ final_vm_list + [hostvars[item]["inventory_hostname_short"]] }}'
       loop: '{{ groups[inventory_group_name_db] }}'
       when: operation == 'delete'
+      ignore_errors: True
 
     - name: Create list of db virtual machines that belong to customer
       set_fact:
         final_vm_list: '{{ final_vm_list + [hostvars[item]["inventory_hostname_short"]] }}'
       loop: '{{ groups[inventory_group_name_lb] }}'
       when: operation == 'delete'
+      ignore_errors: True
 
     - name: Include vars
       include_vars: '{{ item }}'
@@ -98,6 +101,10 @@
         - './vars/env/all'
         - './vars/env/{{ omgeving }}'
         - './vars/flavors/{{ flavor }}'
+
+    - fail:
+        msg: Er zijn geen virtuele machines voor het bedrijf '{{ bedrijfsnaam }}' volgens onze gegevens. Voer de Orchestrator opnieuw uit.
+      when: final_vm_list == []
 
     - name: Run operation create 
       include: "./playbooks/{{ platform }}/vm/create.yml"
