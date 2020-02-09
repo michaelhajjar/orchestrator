@@ -16,3 +16,5 @@
     path: inventories/provisioner.ini
     regexp: '{{ item }}'
     state: absent
+  vars:
+    ansible_python_interpreter=/usr/bin/python
