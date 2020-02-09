@@ -20,13 +20,15 @@
 
 - name: Install server config file
   template:
-    src: etc_my.cnf.d_server.cnf.j2
+    src: '{{ role_path}}/files/etc_my.cnf.d_server.cnf.j2'
     dest: "{{ mariadb_config_server }}"
   notify: restart mariadb
+  vars:
+    ansible_python_interpreter: /usr/bin/python
 
 - name: Install network config file
   template:
-    src: etc_my.cnf.d_network.cnf.j2
+    src: '{{ role_path}}/files/etc_my.cnf.d_network.cnf.j2'
     dest: "{{ mariadb_config_network }}"
   notify: restart mariadb
   vars:
@@ -34,7 +36,7 @@
   
 - name: Install custom config file
   template:
-    src: etc_my.cnf.d_custom.cnf.j2
+    src: '{{ role_path}}/files/etc_my.cnf.d_custom.cnf.j2'
     dest: "{{ mariadb_config_custom }}"
   when: mariadb_custom_cnf|length != 0
   notify: restart mariadb
