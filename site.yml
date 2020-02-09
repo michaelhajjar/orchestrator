@@ -27,9 +27,8 @@
       register: menu_env
 
     - pause:
-        prompt: "\nOp welke platform wilt u de VM aannmaken?:\n \n- VMWare (typ vmware) \n- Azure  (typ azure) \n- AWS    (typ aws)\n"
+        prompt: "\nOp welke platform wilt u de VM aannmaken, aanpassen of verwijderen?:\n \n- VMWare (typ vmware) \n- Azure  (typ azure) \n- AWS    (typ aws)\n"
       register: menu_platform
-      when: menu_vm.user_input == 'create'
 
     - pause:
         prompt: "\nWat voor flavor heeft de VM?:\n \n- 128MB RAM, 1 core, 10GB disk (typ micro.1) \n- 256MB RAM, 1 core, 15GB disk (typ micro.2) \n- 512MB RAM, 1 core, 20GB disk (typ small.1) \n"
@@ -47,7 +46,7 @@
         achternaam: "{{ menu_achternaam.user_input|lower }}"
         bedrijfsnaam: "{{ menu_bedrijfsnaam.user_input|lower }}"
         omgeving: "{{ menu_env.user_input }}"
-        platform: "{{ menu_platform.user_input|default('n.v.t.') }}"
+        platform: "{{ menu_platform.user_input|default('vmware') }}"
         flavor: "{{ menu_flavor.user_input|default('n.v.t.') }}"
         operation: "{{ menu_vm.user_input }}"
         aantal_instanties: "{{ menu_instances.user_input|default('0') }}"
