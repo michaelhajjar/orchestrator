@@ -10,7 +10,7 @@
 
 - name: Set default fact for deleting VM
   set_fact:
-    specific_vm_choice: 'nee'
+    specific_vm_choice: '{{ specific_vm_choice.user_input }}'
   when: yes_to_all_vm_delete.user_input == 'nee'
 
 - name: Remove the Virtual Machine on VMWare
