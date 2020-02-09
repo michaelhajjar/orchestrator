@@ -2,3 +2,5 @@
   include_role:
     name: vmware
     tasks_from: remove_vm
+  vars:
+    hostname: '{{ item }}'
