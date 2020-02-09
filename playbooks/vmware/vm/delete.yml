@@ -1,6 +1,11 @@
+- pause:
+    prompt: 'Weet je zeker dat VM: {{ item }} verwijderd moet worden? (typ ja of nee)'
+  register: specific_vm_choice
+
 - name: Remove the Virtual Machine on VMWare
   include_role:
     name: vmware
     tasks_from: remove_vm
   vars:
     hostname: '{{ item }}'
+  when: specific_vm_choice.user_input == 'ja'

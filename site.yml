@@ -50,22 +50,29 @@
         platform: "{{ menu_platform.user_input|default('n.v.t.') }}"
         flavor: "{{ menu_flavor.user_input|default('n.v.t.') }}"
         operation: "{{ menu_vm.user_input }}"
-        aantal_instanties: "{{ menu_instances.user_input|default('n.v.t.') }}"
+        aantal_instanties: "{{ menu_instances.user_input|default('0') }}"
         final_vm_deleted: []
         final_vm_created: []
 
     - pause:
-        prompt: "\nU heeft de volgende informatie ingevoerd, is dit correct (opties ja of nee): \n\nVoornaam: {{ voornaam }} \nAchternaam: {{ achternaam }} \nBedrijfsnaam: {{ bedrijfsnaam }} \nOmgeving: {{ omgeving }} \nPlatform: {{ platform }} \nFlavor: {{ flavor }} \nActie: {{ operation }} VM \nAantal instanties: {{ aantal_instanties }} \n\n"
+        prompt: "\nU heeft de volgende informatie ingevoerd, is dit correct (typ ja of nee): \n\nVoornaam: {{ voornaam }} \nAchternaam: {{ achternaam }} \nBedrijfsnaam: {{ bedrijfsnaam }} \nOmgeving: {{ omgeving }} \nPlatform: {{ platform }} \nFlavor: {{ flavor }} \nActie: {{ operation }} VM \nAantal instanties: {{ aantal_instanties }} \n\n"
       register: final_information_acc
 
     - fail:
         msg: U heeft nee ingevuld. Voer de Orchestrator opnieuw uit.
       when: final_information_acc.user_input == 'nee'
 
-    - name: Set facts of existing VM's
+    - name: Include vars
+      include_vars: '{{ item }}'
+      loop:
+        - './vars/env/all'
+        - './vars/env/{{ omgeving }}'
+        - './vars/flavors/{{ flavor }}'
+
+    - name: Create list of web virtual machines that belong to customer
       set_fact:
-        vm_exists: '{{ final_vm_deleted + [item] }}'
-      loop: '{{ groups[bedrijfsnaam_rol.user_input_omgeving] }}'
+        final_vm_deleted: '{{ final_vm_deleted + [hostvars[item]["inventory_hostname_short"]] }}'
+      loop: '{{ groups[bedrijfsnaam"_web_"omgeving] }}'
       when: operation == 'delete'
 
     - name: Include vars
@@ -73,10 +80,7 @@
       loop:
         - './vars/env/all'
         - './vars/env/{{ omgeving }}'
-
-    - name: Include vars
-      include_vars: './vars/flavors/{{ flavor }}'
-      when: operation != 'delete'
+        - './vars/flavors/{{ flavor }}'
 
     - name: Run operation create 
       include: "./playbooks/{{ platform }}/vm/create.yml"
@@ -86,4 +90,4 @@
     - name: Run operation delete 
       include: "./playbooks/{{ platform }}/vm/delete.yml"
       loop: '{{ final_vm_deleted }}'
-      when: operation == 'deletess' 
+      when: operation == 'delete' 
