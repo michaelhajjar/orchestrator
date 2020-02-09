@@ -95,6 +95,11 @@
       when: operation == 'delete'
       ignore_errors: True
 
+    - pause:
+        prompt: "Wilt u alle servers verwijderen voor bedrijf: {{ bedrijfsnaam }} in omgeving: {{ omgeving }}? (typ ja of nee)"
+      register: yes_to_all_vm_delete
+      when: operation == 'delete'
+
     - name: Include vars
       include_vars: '{{ item }}'
       loop:
