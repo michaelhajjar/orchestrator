@@ -25,3 +25,10 @@ localhost ansible_connection=local ansible_python_interpreter=/usr/bin/python3
 Gebruik de volgende commando om snel te debuggen:
 ansible-playbook site.yml -e "menu_voornaam=michael menu_achternaam=hajjar menu_bedrijfsnaam=DUO menu_env=productie menu_platform=vmware menu_flavor=micro.1 menu_vm=aanmaken menu_klant=nieuw ansible_python_interpreter=/usr/local/bin/python3" -vvvv
 ```
+
+## Sources
+```
+Sample PHP CRUD app: https://www.startutorial.com/articles/view/php-crud-tutorial-part-2
+docs.ansible.com
+Jeff Geerling & Bert van Vreckem
+```
