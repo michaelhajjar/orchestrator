@@ -13,7 +13,6 @@
     state: installed
   with_items: 
     - mariadb
-    - mariadb-common
     - mariadb-server
     - mariadb-libs
     - MySQL-python
