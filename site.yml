@@ -104,7 +104,7 @@
 
     - fail:
         msg: Er zijn geen virtuele machines voor het bedrijf '{{ bedrijfsnaam }}' volgens onze gegevens. Voer de Orchestrator opnieuw uit.
-      when: final_vm_list == []
+      when: final_vm_list == [] and operation == 'delete' 
 
     - name: Run operation create 
       include: "./playbooks/{{ platform }}/vm/create.yml"
