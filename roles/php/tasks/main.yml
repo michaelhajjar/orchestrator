@@ -1,13 +1,14 @@
 ---
 - name: Install the remi repo
   yum:
-    name: "http://rpms.remirepo.net/enterprise/remi-release-7.rpm"
+    name: 
+      - "http://rpms.remirepo.net/enterprise/remi-release-7.rpm"
+      - epel-release
+      - yum-utils
 
 - name: Install PHP packages
   yum:
     name:
-      - epel-release
-      - yum-util
       - php 
       - php-common 
       - php-opcache 
@@ -28,14 +29,14 @@
     ansible_python_interpreter: /usr/bin/python
   loop:
     - create.php
-    - databases.php
+    - database.php
     - index.php
     - read.php
 
 - name: Copy dirs to /var/www/html
-  template:
+  copy:
     src: '{{ role_path }}/files/{{ item }}'
-    dest: /var/www/html/{{ item }}
+    dest: /var/www/html/
     mode: 0755
   notify: restart httpd
   vars:

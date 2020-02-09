@@ -3,7 +3,7 @@ class Database
 {
     private static $dbName = 'miketestdb';
     {% set db_host = groups[inv_group_name][0] -%}
-    private static $dbHost = {{ hostvars[db_host]['ansible_host'] }};
+    private static $dbHost = '{{ hostvars[db_host]['ansible_host'] }}';
     private static $dbUsername = 'michael';
     private static $dbUserPassword = 'hajjar';
      
