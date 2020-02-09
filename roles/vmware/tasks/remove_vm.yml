@@ -7,3 +7,4 @@
     validate_certs: "{{ vmware_validate }}"
     name: "{{ hostname }}"
     state: absent
+    force: yes

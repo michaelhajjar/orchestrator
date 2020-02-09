@@ -50,7 +50,7 @@
         flavor: "{{ menu_flavor.user_input|default('n.v.t.') }}"
         operation: "{{ menu_vm.user_input }}"
         aantal_instanties: "{{ menu_instances.user_input|default('0') }}"
-        final_vm_deleted: []
+        final_vm_list: []
         final_vm_created: []
 
     - pause:
@@ -68,10 +68,28 @@
         - './vars/env/{{ omgeving }}'
         - './vars/flavors/{{ flavor }}'
 
+    - name: Set fact of inventory group name
+      set_fact:
+        inventory_group_name_web: '{{ bedrijfsnaam }}_web_{{ omgeving }}'
+        inventory_group_name_db: '{{ bedrijfsnaam }}_db_{{ omgeving }}'
+        inventory_group_name_lb: '{{ bedrijfsnaam }}_lb_{{ omgeving }}'
+  
     - name: Create list of web virtual machines that belong to customer
       set_fact:
-        final_vm_deleted: '{{ final_vm_deleted + [hostvars[item]["inventory_hostname_short"]] }}'
-      loop: '{{ groups[bedrijfsnaam"_web_"omgeving] }}'
+        final_vm_list: '{{ final_vm_list + [hostvars[item]["inventory_hostname_short"]] }}'
+      loop: '{{ groups[inventory_group_name_web] }}'
+      when: operation == 'delete'
+
+    - name: Create list of db virtual machines that belong to customer
+      set_fact:
+        final_vm_list: '{{ final_vm_list + [hostvars[item]["inventory_hostname_short"]] }}'
+      loop: '{{ groups[inventory_group_name_db] }}'
+      when: operation == 'delete'
+
+    - name: Create list of db virtual machines that belong to customer
+      set_fact:
+        final_vm_list: '{{ final_vm_list + [hostvars[item]["inventory_hostname_short"]] }}'
+      loop: '{{ groups[inventory_group_name_lb] }}'
       when: operation == 'delete'
 
     - name: Include vars
@@ -88,5 +106,5 @@
 
     - name: Run operation delete 
       include: "./playbooks/{{ platform }}/vm/delete.yml"
-      loop: '{{ final_vm_deleted }}'
+      loop: '{{ final_vm_list }}'
       when: operation == 'delete' 
