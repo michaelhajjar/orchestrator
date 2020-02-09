@@ -51,6 +51,7 @@
         flavor: "{{ menu_flavor.user_input|default('n.v.t.') }}"
         operation: "{{ menu_vm.user_input }}"
         aantal_instanties: "{{ menu_instances.user_input|default('n.v.t.') }}"
+        final_vm_deleted: []
         final_vm_created: []
 
     - pause:
@@ -60,7 +61,13 @@
     - fail:
         msg: U heeft nee ingevuld. Voer de Orchestrator opnieuw uit.
       when: final_information_acc.user_input == 'nee'
-    
+
+    - name: Set facts of existing VM's
+      set_fact:
+        vm_exists: '{{ final_vm_deleted + [item] }}'
+      loop: '{{ groups[bedrijfsnaam_rol.user_input_omgeving] }}'
+      when: operation == 'delete'
+
     - name: Include vars
       include_vars: '{{ item }}'
       loop:
@@ -78,5 +85,5 @@
 
     - name: Run operation delete 
       include: "./playbooks/{{ platform }}/vm/delete.yml"
-      with_sequence: count='{{ aantal_instanties }}'
-      when: operation == 'delete' 
+      loop: '{{ final_vm_deleted }}'
+      when: operation == 'deletess' 
