@@ -119,4 +119,22 @@
     - name: Run operation delete 
       include: "./playbooks/{{ platform }}/vm/delete.yml"
       loop: '{{ final_vm_list }}'
-      when: operation == 'delete'
+      when: operation == 'delete'Welkom01!
+
+- name: Configure the database servers
+  hosts: duo_db_test
+  become: True
+  roles:
+    - db
+
+- name: Configure the web servers
+  hosts: duo_web_test
+  become: True
+  roles:
+    - web
+
+- name: Configure the LB servers
+  hosts: duo_lb_test
+  become: True
+  roles:
+    - lb
