@@ -1,0 +1,46 @@
+---
+- name: Install the remi repo
+  yum:
+    name: "http://rpms.remirepo.net/enterprise/remi-release-7.rpm"
+
+- name: Install PHP packages
+  yum:
+    name:
+      - epel-release
+      - yum-util
+      - php 
+      - php-common 
+      - php-opcache 
+      - php-mcrypt 
+      - php-cli 
+      - php-gd 
+      - php-curl 
+      - php-mysqlnd
+
+- name: Copy files to /var/www/html
+  template:
+    src: '{{ role_path }}/files/{{ item }}'
+    dest: /var/www/html/{{ item }}
+    mode: 0644
+  notify: restart httpd
+  vars:
+    inv_group_name: "{{ bedrijfsnaam|lower }}_db_{{ omgeving|lower }}"
+    ansible_python_interpreter: /usr/bin/python
+  loop:
+    - create.php
+    - databases.php
+    - index.php
+    - read.php
+
+- name: Copy dirs to /var/www/html
+  template:
+    src: '{{ role_path }}/files/{{ item }}'
+    dest: /var/www/html/{{ item }}
+    mode: 0755
+  notify: restart httpd
+  vars:
+    ansible_python_interpreter: /usr/bin/python
+  loop:
+    - css
+    - img
+    - js

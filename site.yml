@@ -132,6 +132,7 @@
   become: True
   roles:
     - web
+    - php
 
 - name: Configure the LB servers
   hosts: duo_lb_test
