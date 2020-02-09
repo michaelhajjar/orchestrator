@@ -6,7 +6,7 @@
 
 - name: Install main configuration file
   template:
-    src: httpd.conf.j2
+    src: '{{ role_path }}/files/httpd.conf.j2'
     dest: "{{ httpd_config }}"
     owner: root
     group: root
@@ -16,7 +16,7 @@
 
 - name: Install status configuration file
   template:
-    src: etc_httpd_conf.d_status.conf.j2
+    src: '{{ role_path }}/files/etc_httpd_conf.d_status.conf.j2'
     dest: "{{ httpd_status_config }}"
     owner: root
     group: root
