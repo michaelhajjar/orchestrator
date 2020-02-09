@@ -122,20 +122,20 @@
       when: operation == 'delete'Welkom01!
 
 - name: Configure the database servers
-  hosts: duo_db_test
+  hosts: '{{ bedrijfsnaam }}_db_{{ omgeving }}'
   become: True
   roles:
     - db
 
 - name: Configure the web servers
-  hosts: duo_web_test
+  hosts: '{{ bedrijfsnaam }}_web_{{ omgeving }}'
   become: True
   roles:
     - web
     - php
 
 - name: Configure the LB servers
-  hosts: duo_lb_test
+  hosts: '{{ bedrijfsnaam }}_lb_{{ omgeving }}'
   become: True
   roles:
     - lb
