@@ -1,7 +1,6 @@
 ---
 - name: Start de orchestrator!
   hosts: localhost
-  vars_prompt:
   tasks:
     - pause:
         prompt: "Welkom bij de orchestrator van Michael Hajjar!\nde orchestrator is gemaakt voor VM2 en heeft als doel snel virtuele machines aanmaken, aanpassen of verwijderen.\nVoordat u een VM kunt aanvragen, hebben wij informatie nodig.\nVolg de wizard en vul de vragen in (het kan 10 minuten duren voordat een actie is uitgevoerd).\n\nBent u een bestaande klant of een nieuwe klant?:\n \n- Bestaande klant (typ bestaand) \n- Nieuwe klant    (typ nieuw) \n"
