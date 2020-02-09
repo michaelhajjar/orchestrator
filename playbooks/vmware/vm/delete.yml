@@ -1,0 +1,4 @@
+- name: Remove the Virtual Machine on VMWare
+  include_role:
+    name: vmware
+    tasks_from: remove_vm

@@ -1,0 +1,10 @@
+---
+- name: Remove a virtual machine
+  vmware_guest:
+    hostname: "{{ vcenter_hostname }}"
+    username: "{{ vcenter_username }}"
+    password: "{{ vcenter_password }}"
+    validate_certs: no
+    name: "{{ hostname }}"
+    state: absent
+  delegate_to: localhost
