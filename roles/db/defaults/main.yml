@@ -1,0 +1,33 @@
+---
+mariadb_databases:
+  - name: miketestdb
+mariadb_users:
+  - name: michael
+    password: hajjar
+    priv: '*.*:ALL,GRANT'
+    host: "%"
+
+mariadb_root_password: 'Welkom01!'
+
+mariadb_mirror: yum.mariadb.org
+mariadb_version: '10.4'
+
+mariadb_configure_swappiness: true
+mariadb_swappiness: 0
+
+# Network configuration (network.cnf)
+
+mariadb_service: mariadb
+mariadb_bind_address: '0.0.0.0'
+
+# Server configuration
+mariadb_server_cnf: {}
+
+# Custom configuration
+mariadb_custom_cnf: {}
+
+# Other config
+mariadb_socket: /var/lib/mysql/mysql.sock
+mariadb_config_network: /etc/my.cnf.d/network.cnf
+mariadb_config_server: /etc/my.cnf.d/server.cnf
+mariadb_config_custom: /etc/my.cnf.d/custom.cnf

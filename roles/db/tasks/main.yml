@@ -1,23 +1,118 @@
 ---
-- name: Install MySQL repository
-  action: yum name='https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm'
+- name: Add official MariaDB repository
+  yum_repository:
+    name: MariaDB
+    description: Official MariaDB repository
+    baseurl: "http://yum.mariadb.org/10.4/centos7-amd64"
+    gpgkey: https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+    gpgcheck: true
 
-- name: Install MySQL Community Server
-  action: yum name=mysql-community-server
+- name: Install packages
+  package:
+    name: "{{ item }}"
+    state: installed
+  with_items: 
+    - mariadb
+    - mariadb-common
+    - mariadb-server
+    - mariadb-libs
+    - MySQL-python
+    - perl-DBD-MySQL
 
-- name: Install MySQL python dependecie
-  action: yum name=MySQL-python
+- name: Install server config file
+  template:
+    src: etc_my.cnf.d_server.cnf.j2
+    dest: "{{ mariadb_config_server }}"
+  notify: restart mariadb
+
+- name: Install network config file
+  template:
+    src: etc_my.cnf.d_network.cnf.j2
+    dest: "{{ mariadb_config_network }}"
+  notify: restart mariadb
+  vars:
+    ansible_python_interpreter: /usr/bin/python
   
-- name: Start the MySQL service
-  action: service name=mysqld state=started
+- name: Install custom config file
+  template:
+    src: etc_my.cnf.d_custom.cnf.j2
+    dest: "{{ mariadb_config_custom }}"
+  when: mariadb_custom_cnf|length != 0
+  notify: restart mariadb
+  vars:
+    ansible_python_interpreter: /usr/bin/python
+  
+- name: Configure swappiness
+  sysctl:
+    name: vm.swappiness
+    value: "{{ mariadb_swappiness }}"
+    state: present
+  when: mariadb_configure_swappiness|bool
 
-- name: update mysql root password for all root accounts
-  mysql_user: name=root host={{ item }} password=Welkom01!
+- name: Ensure service is started
+  service:
+    name: "mariadb"
+    state: started
+    enabled: true
+
+- name: Check if a custom root password is specified
+  debug:
+    msg: >
+      Warning!! the MariaDB root password was left empty. Please set a custom
+      password with role variable mariadb_root_password to secure your database
+      server!
+  when: mariadb_root_password | length == 0
+
+- name: Check if root password is set
+  shell: >
+    mysqladmin -u root status
+  changed_when: false
+  failed_when: false
+  register: root_pwd_check
+  
+- name: Set MariaDB root password for the first time (root@localhost)
+  mysql_user:
+    name: root
+    password: "{{ mariadb_root_password }}"
+    host: localhost
+    login_unix_socket: "{{ mariadb_socket }}"
+    state: present
+  when: root_pwd_check.rc == 0
+  
+- name: Set MariaDB root password for 127.0.0.1, ::1
+  mysql_user:
+    name: root
+    password: "{{ mariadb_root_password }}"
+    host: "{{ item }}"
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+    login_unix_socket: "{{ mariadb_socket }}"
+    state: present
   with_items:
-    - "{{ ansible_hostname }}"
-    - 127.0.0.1
     - ::1
-    - localhost
+    - 127.0.0.1
+  when: root_pwd_check.rc == 0
 
-- name: copy .my.cnf file with root password credentials
-  template: src='{{ role_path }}/.my.cnf' dest=/root/.my.cnf owner=root mode=0600
+- include_tasks: databases.yml
+
+- name: Remove anonymous users
+  mysql_user:
+    name: ''
+    host_all: true
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+    login_unix_socket: "{{ mariadb_socket }}"
+    state: absent
+
+- name: Create the users
+  mysql_user:
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
+    host: "{{ item.host|default('localhost') }}"
+    priv: "{{ item.priv }}"
+    append_privs: "{{ item.append_privs|default('no') }}"
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+    login_unix_socket: "{{ mariadb_socket }}"
+    state: present
+  with_items: "{{ mariadb_users }}"
