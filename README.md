@@ -104,16 +104,26 @@ Hieronder ziet u een toelichting over de structuur van dit project:
 
 
 ### Prerequisites
-Installeer de packages die nodig zijn, voer de stappen hieronder uit:
+Installeer de packages die nodig zijn, voer de stappen hieronder uit als root:
+
 1. Installeer CentOS 7, gevolgd door een yum update/yum upgrade
-2. 
-
-Clone dit project en pas de env variabelen in in map vars/env/.
-Maak een map genaamd 'inventories' en maak hierin een file aan genaamd 'provisioner.ini'.
-
-Zorg ervoor dat de volgende regel in de file komt:
+```
+yum upgrade -y
+yum clean all
+```
+2. Installeer Python 3.6 en pip3
+```
+yum install python3 python3-pip -y
+```
+3. Installeer Ansible en pyvmomi via pip3
+```
+pip3 install ansible pyvmomi
+```
+4. Clone dit project en pas de env variabelen in in map vars/env/.
+5. Maak een map genaamd 'inventories' en maak hierin een file aan genaamd 'provisioner.ini'. Zorg ervoor dat de volgende regel in de file komt:
+```
 localhost ansible_connection=local ansible_python_interpreter=/usr/bin/python3
-
+```
 
 ### Usage
 Voer de volgende commando uit:
