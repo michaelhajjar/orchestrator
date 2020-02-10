@@ -1,4 +1,9 @@
 ---
+- name: Set default fact
+  set_fact:
+    new_vm_name: "nee"
+  when: new_vm_name_ts is not defined
+  
 - name: Wait for the virtual machine to shutdown
   vmware_guest_powerstate:
     hostname: "{{ vmware_host }}"
