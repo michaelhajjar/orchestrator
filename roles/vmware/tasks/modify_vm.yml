@@ -9,7 +9,7 @@
     state: shutdown-guest
     state_change_timeout: 200
   register: vm_power_off
-  when: memory != '' or cpu != ''
+  when: memory != 'nee' or cpu != 'nee'
 
 - name: Modify VM Memory
   vmware_guest:
@@ -33,7 +33,7 @@
       start_connected: True
     wait_for_ip_address: yes
   register: virtualmachinecreated
-  when: memory != ''
+  when: memory != 'nee'
 
 - name: Modify VM CPU
   vmware_guest:
@@ -57,7 +57,7 @@
       start_connected: True
     wait_for_ip_address: yes
   register: virtualmachinecreated
-  when: cpu != ''
+  when: cpu != 'nee'
 
 - name: Wait for the virtual machine to power on
   vmware_guest_powerstate:
@@ -68,7 +68,7 @@
     name: "{{ hostname }}"
     state: powered-on
     state_change_timeout: 200
-  when: memory != '' or cpu != ''
+  when: memory != 'nee' or cpu != 'nee'
 
 - name: Get VM uuid
   vmware_guest_facts:
@@ -80,7 +80,7 @@
     datacenter: "{{ vmware_datacenter }}"
     name: "{{ hostname }}"
   register: vm_facts
-  when: new_vm_name != ''
+  when: new_vm_name != 'nee'
 
 - name: Rename "{{ hostname }}" to "{{ new_vm_name }}"
   vmware_guest:
@@ -92,4 +92,4 @@
     datacenter: "{{ vmware_datacenter }}"
     uuid: "{{ vm_facts.instance.hw_product_uuid }}"
     name: "{{ new_vm_name }}"
-  when: new_vm_name != ''
+  when: new_vm_name != 'nee'

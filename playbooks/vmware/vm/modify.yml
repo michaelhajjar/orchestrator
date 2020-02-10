@@ -8,7 +8,7 @@
   command: hostnamectl set-hostname '{{ hostname}}.{{ domain}}'
   register: hostnamecmd
   delegate_to: "{{ hostvars[hostname]['ansible_host']}}"
-  when: new_vm_name != ''
+  when: new_vm_name != 'nee'
 
 - name: Replace '{{ hostname }}.{{ domain }}' with '{{ new_vm_name }}.{{ domain }}' in inventory file
   lineinfile:
@@ -18,4 +18,4 @@
     state: present
   vars:
     ansible_python_interpreter: /usr/bin/python
-  when: new_vm_name != ''
+  when: new_vm_name != 'nee'

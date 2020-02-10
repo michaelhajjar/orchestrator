@@ -136,9 +136,9 @@
       when: operation == 'modify'
       vars:
         hostname: '{{ vm_to_modify.user_input }}'
-        new_vm_name: '{{ new_vm_name.user_input|default('') }}'
-        cpu: '{{ cpu_cores.user_input|default('') }}'
-        memory: '{{ memory_mb.user_input|default('') }}'
+        new_vm_name: "{{ new_vm_name.user_input|default('nee') }}"
+        cpu: "{{ cpu_cores.user_input|default('nee') }}"
+        memory: "{{ memory_mb.user_input|default('nee') }}"
 
     - name: Run operation delete 
       include: "./playbooks/{{ platform }}/vm/delete.yml"
