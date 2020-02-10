@@ -2,15 +2,19 @@
 Ansible orchestrator is een school opdracht, voor VM2. De bedoeling is om via Ansible automatisch een VM aan te maken.
 
 ## Table of Contents
-1. [Tested with](#Requirements)
-2. [Directory Layout](#Directory Layout)
+1. [Requirements](#Requirements)
+2. [Layout](#Layout)
 3. [Toelichting](#Toelichting)
 4. [Prerequesites](#Prerequesites)
+5. [Usage](#Usage)
+6. [Debug](#Debug)
+7. [Sources](#Sources)
 
-### Tested with
-```
+
+### Requirements
 De playbooks zijn getest met de volgende configuratie:
 
+```
 - Centos 7.7.1908
 - Ansible 2.9.4 (python 3)
 - pyvmomi 6.7 (python 3)
@@ -18,7 +22,8 @@ De playbooks zijn getest met de volgende configuratie:
 - VMWare Vcenter 6.7u1
 ```
 
-### Directory Layout
+
+### Layout
 Hieronder ziet u de layout van de git repo.
 
 ```
@@ -69,11 +74,11 @@ Hieronder ziet u de layout van de git repo.
         └── small.1
 ```
 
+
 ### Toelichting
 
 
 ### Prerequesites
-```
 Installeer de packages die nodig zijn, voer de stappen hieronder uit:
 1. Installeer CentOS 7, gevolgd door een yum update/yum upgrade
 2. 
@@ -83,19 +88,27 @@ Maak een map genaamd 'inventories' en maak hierin een file aan genaamd 'provisio
 
 Zorg ervoor dat de volgende regel in de file komt:
 localhost ansible_connection=local ansible_python_interpreter=/usr/bin/python3
-``` 
 
-### Test/Debug
+
+### Usage
+Voer de volgende commando uit:
+
 ```
-Gebruik de volgende commando om snel te debuggen:
+ansible-playbook site.yml
+```
 
+### Debug
+Gebruik de volgende commando om te debuggen:
+
+```
+ansible-playbook site.yml -vvvv
 ```
 
 ### Sources
-```
+De volgende bronnen zijn geraadpleegd:
+
 - Sample PHP APP: https://www.startutorial.com/articles/view/php-crud-tutorial-part-2
 - docs.ansible.com
 - galaxy.ansible.com
 - Jeff Geerling
 - Bert van Vreckem
-```
