@@ -120,7 +120,8 @@ yum install python3 python3-pip -y
 pip3 install ansible pyvmomi
 ```
 4. Clone dit project en pas de env variabelen in in map vars/env/.
-5. Maak een map genaamd 'inventories' en maak hierin een file aan genaamd 'provisioner.ini'. Zorg ervoor dat de volgende regel in de file komt:
+5. Maak een map genaamd 'inventories' en maak hierin een file aan genaamd 'provisioner.ini'. 
+   Zorg ervoor dat de volgende regel in de file komt:
 ```
 localhost ansible_connection=local ansible_python_interpreter=/usr/bin/python3
 ```
