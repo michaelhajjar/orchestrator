@@ -1,6 +1,7 @@
 ---
 mariadb_databases:
   - name: miketestdb
+    init_script: files/sample-db.sql
 mariadb_users:
   - name: michael
     password: hajjar
