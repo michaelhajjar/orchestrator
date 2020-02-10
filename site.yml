@@ -126,12 +126,18 @@
 - name: Configure the database servers
   hosts: "{{ hostvars['localhost']['bedrijfsnaam'] }}_db_{{ hostvars['localhost']['omgeving'] }}"
   become: True
+  vars:
+    bedrijfsnaam: "{{ hostvars['localhost']['bedrijfsnaam'] }}"
+    omgeving: "{{ hostvars['localhost']['omgeving'] }}"
   roles:
     - db
 
 - name: Configure the web servers
   hosts: "{{ hostvars['localhost']['bedrijfsnaam'] }}_web_{{ hostvars['localhost']['omgeving'] }}"
   become: True
+  vars:
+    bedrijfsnaam: "{{ hostvars['localhost']['bedrijfsnaam'] }}"
+    omgeving: "{{ hostvars['localhost']['omgeving'] }}"
   roles:
     - web
     - php
@@ -139,5 +145,8 @@
 - name: Configure the LB servers
   hosts: "{{ hostvars['localhost']['bedrijfsnaam'] }}_lb_{{ hostvars['localhost']['omgeving'] }}"
   become: True
+  vars:
+    bedrijfsnaam: "{{ hostvars['localhost']['bedrijfsnaam'] }}"
+    omgeving: "{{ hostvars['localhost']['omgeving'] }}"
   roles:
     - lb

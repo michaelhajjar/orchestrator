@@ -25,7 +25,7 @@
     mode: 0644
   notify: restart httpd
   vars:
-    inv_group_name: "{{ bedrijfsnaam|lower }}_db_{{ omgeving|lower }}"
+    inv_group_name: "{{ bedrijfsnaam}}_db_{{ omgeving }}"
     ansible_python_interpreter: /usr/bin/python
   loop:
     - create.php
