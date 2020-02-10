@@ -3,6 +3,8 @@
 1. [Requirements](#Requirements)
 2. [Layout](#Layout)
 3. [Toelichting](#Toelichting)
+  3.1 [Mappen](#Mappen)
+  3.2 [Site](#Site)
 4. [Prerequesites](#Prerequesites)
 5. [Usage](#Usage)
 6. [Debug](#Debug)
@@ -76,22 +78,19 @@ Hieronder ziet u de layout van de git repo.
 
 ### Toelichting
 
-Hieronder ziet u een toelichting van de verschillende mappen.
-- inventories: Hierin komt een inventorie file voor alle virtuele machines die gemaakt worden. De inventory file zal ook dienen als 'bron van waarheid'. Bijvoorbeeld: Als haproxy informatie nodig heeft over zijn backend web servers, dan zal de inventory file gebruikt worden voor die informatie. De virtuele machines die aangemaakt worden, komen in een apart categorie in de inventory file, afhankelijk van: bedrijf, rol en omgeving. Er wordt ook andere informatie in de inventory file neergezet per VM als variabel (zoals voornaam, bedrijfsnaam), maar dit dient meer als administratie op dit moment.
+##### Mappen
+- inventories: Hierin komt een inventory file voor alle virtuele machines die gemaakt worden. De inventory file zal ook dienen als 'bron van waarheid'. Bijvoorbeeld: Als haproxy informatie nodig heeft over zijn backend web servers, dan zal de inventory file gebruikt worden voor die informatie. De virtuele machines die aangemaakt worden, komen in een apart categorie in de inventory file, afhankelijk van: bedrijf, rol en omgeving. Er wordt ook andere informatie in de inventory file neergezet per VM als variabel (zoals voornaam, bedrijfsnaam), maar de variabelen in de VM worden nu nog niet gebruikt.
 
-- playbooks
-- roles
-- vars
+- playbooks: In deze map staan ook sub mappen. De bedoeling is dat in deze mappen playbooks worden gemaakt dat verschillende taken van een of meerdere rollen, tot een specifieke functie. De sub mappen zijn per platform (vmware, azure en vagrant) ingedeeld en in de sub mappen worden er ook mappen gemaakt voor de specifieke gedeelte van het platform waarop een of meerdere acties uitgevoerd moet worden (vm, storage en network). In de map playbooks/vmware/vm/ zijn 3 playbooks genaamd create, modify en delete. De playbooks hebben betrekking op vm's in vmware.
 
+- roles: In deze map komen alle rollen. Een rol is een verzameling van herbruikbare taken. 
 
+- vars: In deze map komen alle globale variabelen te staan. Denk hierbij aan de variabelen per omgeving en flavors (cpu, memory en disk).
 
-Alle virtuele machines die worden aangemaakt, komen in de default inventorie provisoner.ini.
-De virtuele machines komen in een apart categorie, afhankelijk van: bedrijf, rol en omgeving.
-Er zijn 4 omgevingen: ontwikkel, test, acceptatie en productie (OTAP). 
-De eindgebruiker kan systemen uitrollen in een van de 4 omgevingen. 
+##### Site
 
 
-### Prerequesites
+### Prerequisites
 Installeer de packages die nodig zijn, voer de stappen hieronder uit:
 1. Installeer CentOS 7, gevolgd door een yum update/yum upgrade
 2. 
