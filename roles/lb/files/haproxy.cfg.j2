@@ -26,6 +26,13 @@ defaults
         timeout server 50000
 {% endif %}
 
+frontend stats
+    bind *:8404
+    stats enable
+    stats uri /stats
+    stats refresh 10s
+    stats admin if TRUE
+
 frontend {{ haproxy_frontend_name }}
     bind {{ haproxy_frontend_bind_address }}:{{ haproxy_frontend_port }}
     mode {{ haproxy_frontend_mode }}
