@@ -59,6 +59,17 @@
   register: virtualmachinecreated
   when: cpu != ''
 
+- name: Wait for the virtual machine to power on
+  vmware_guest_powerstate:
+    hostname: "{{ vmware_host }}"
+    username: "{{ vmware_user }}"
+    password: "{{ vmware_password }}"
+    validate_certs: "{{ vmware_validate }}"
+    name: "{{ hostname }}"
+    state: powered-on
+    state_change_timeout: 200
+  when: memory != '' or cpu != ''
+
 - name: Get VM uuid
   vmware_guest_facts:
     hostname: "{{ vmware_host }}"
