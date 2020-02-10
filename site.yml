@@ -113,7 +113,7 @@
 
     - pause:
         prompt: "Hoe moet de nieuwe VM heten?\n"
-      register: new_vm_name
+      register: new_vm_name_ts
       when: operation == 'modify' and what_to_modify.user_input == 'naam'
 
     - pause:
@@ -136,7 +136,7 @@
       when: operation == 'modify'
       vars:
         hostname: '{{ vm_to_modify.user_input }}'
-        new_vm_name: "{{ new_vm_name.user_input|default('nee') }}"
+        new_vm_name: "{{ new_vm_name_ts.user_input|default('nee') }}"
         cpu: "{{ cpu_cores.user_input|default('nee') }}"
         memory: "{{ memory_mb.user_input|default('nee') }}"
 
