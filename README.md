@@ -76,6 +76,20 @@ Hieronder ziet u de layout van de git repo.
 
 ### Toelichting
 
+Hieronder ziet u een toelichting van de verschillende mappen.
+- inventories: Hierin komt een inventorie file voor alle virtuele machines die gemaakt worden. De inventory file zal ook dienen als 'bron van waarheid'. Bijvoorbeeld: Als haproxy informatie nodig heeft over zijn backend web servers, dan zal de inventory file gebruikt worden voor die informatie. De virtuele machines die aangemaakt worden, komen in een apart categorie in de inventory file, afhankelijk van: bedrijf, rol en omgeving. Er wordt ook andere informatie in de inventory file neergezet per VM als variabel (zoals voornaam, bedrijfsnaam), maar dit dient meer als administratie op dit moment.
+
+- playbooks
+- roles
+- vars
+
+
+
+Alle virtuele machines die worden aangemaakt, komen in de default inventorie provisoner.ini.
+De virtuele machines komen in een apart categorie, afhankelijk van: bedrijf, rol en omgeving.
+Er zijn 4 omgevingen: ontwikkel, test, acceptatie en productie (OTAP). 
+De eindgebruiker kan systemen uitrollen in een van de 4 omgevingen. 
+
 
 ### Prerequesites
 Installeer de packages die nodig zijn, voer de stappen hieronder uit:
