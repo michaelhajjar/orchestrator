@@ -78,21 +78,18 @@
       set_fact:
         final_vm_list: '{{ final_vm_list + [hostvars[item]["inventory_hostname_short"]] }}'
       loop: '{{ groups[inventory_group_name_web] }}'
-      when: operation == 'delete'
       ignore_errors: True
 
     - name: Create list of db virtual machines that belong to customer
       set_fact:
         final_vm_list: '{{ final_vm_list + [hostvars[item]["inventory_hostname_short"]] }}'
       loop: '{{ groups[inventory_group_name_db] }}'
-      when: operation == 'delete'
       ignore_errors: True
 
     - name: Create list of db virtual machines that belong to customer
       set_fact:
         final_vm_list: '{{ final_vm_list + [hostvars[item]["inventory_hostname_short"]] }}'
       loop: '{{ groups[inventory_group_name_lb] }}'
-      when: operation == 'delete'
       ignore_errors: True
 
     - pause:
@@ -100,21 +97,23 @@
       register: yes_to_all_vm_delete
       when: operation == 'delete'
 
-    - name: Include vars
-      include_vars: '{{ item }}'
-      loop:
-        - './vars/env/all'
-        - './vars/env/{{ omgeving }}'
-        - './vars/flavors/{{ flavor }}'
-
     - fail:
         msg: Er zijn geen virtuele machines voor het bedrijf '{{ bedrijfsnaam }}' volgens onze gegevens. Voer de Orchestrator opnieuw uit.
       when: final_vm_list == [] and operation == 'delete' 
+
+    - pause:
+        prompt: "Welke VM wilt u aanpassen?: {{ final_vm_list }}"
+      register: modify_which_vm
+      when: operation == 'modify'
 
     - name: Run operation create 
       include: "./playbooks/{{ platform }}/vm/create.yml"
       with_sequence: count='{{ aantal_instanties }}'
       when: operation == 'create'
+
+    - name: Run operation modify 
+      include: "./playbooks/{{ platform }}/vm/modify.yml"
+      when: operation == 'modify2'
 
     - name: Run operation delete 
       include: "./playbooks/{{ platform }}/vm/delete.yml"
