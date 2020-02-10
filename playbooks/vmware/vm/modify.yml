@@ -7,7 +7,7 @@
 - name: set fqdn in OS
   command: hostnamectl set-hostname '{{ hostname}}.{{ domain}}'
   register: hostnamecmd
-  delegate_to: "{{ hostvars[hostname.domain]['ansible_host']}}"
+  delegate_to: "{{ hostvars[old_fqdn]['ansible_host']}}"
   when: new_vm_name != 'nee'
 
 - name: Replace '{{ hostname }}.{{ domain }}' with '{{ new_vm_name }}.{{ domain }}' in inventory file

@@ -139,6 +139,7 @@
         cpu: "{{ cpu_cores.user_input|default('nee') }}"
         memory: "{{ memory_mb.user_input|default('nee') }}"
         new_vm_name: "{{ new_vm_name_ts.user_input|default('nee') }}"
+        old_fqdn: '{{ vm_to_modify.user_input }}.{{ domain }}'
 
     - name: Run operation delete 
       include: "./playbooks/{{ platform }}/vm/delete.yml"
