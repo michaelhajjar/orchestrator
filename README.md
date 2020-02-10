@@ -1,7 +1,5 @@
-## About
-Ansible orchestrator is een school opdracht, voor VM2. De bedoeling is om via Ansible automatisch een VM aan te maken.
-
 ## Table of Contents
+0. [About](#About)
 1. [Requirements](#Requirements)
 2. [Layout](#Layout)
 3. [Toelichting](#Toelichting)
@@ -10,17 +8,18 @@ Ansible orchestrator is een school opdracht, voor VM2. De bedoeling is om via An
 6. [Debug](#Debug)
 7. [Sources](#Sources)
 
+### About
+Ansible orchestrator is een school opdracht, voor VM2. De bedoeling is om via Ansible automatisch een VM aan te maken.
+
 
 ### Requirements
 De playbooks zijn getest met de volgende configuratie:
 
-```
 - Centos 7.7.1908
 - Ansible 2.9.4 (python 3)
 - pyvmomi 6.7 (python 3)
 - uuidgen
 - VMWare Vcenter 6.7u1
-```
 
 
 ### Layout
