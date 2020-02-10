@@ -126,6 +126,11 @@
       register: memory_mb
       when: operation == 'modify' and what_to_modify.user_input == 'memory'
 
+    - name: Set new VM name
+      set_fact:
+        new_vm_name: '{{ new_vm_name_ts.user_input }}'
+      when: new_vm_name_ts is defined
+      
     - name: Run operation create 
       include: "./playbooks/{{ platform }}/vm/create.yml"
       with_sequence: count='{{ aantal_instanties }}'

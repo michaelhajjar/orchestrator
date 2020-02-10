@@ -2,12 +2,14 @@
 - name: Set default fact
   set_fact:
     new_vm_name: "nee"
-  when: new_vm_name_ts is not defined
+  when: new_vm_name is not defined
 
 - name: Modify the VM
   include_role:
     name: vmware
     tasks_from: modify_vm
+  vars:
+    new_vm_name: '{{ new_vm_name }}'
 
 - name: set fqdn in OS
   command: hostnamectl set-hostname '{{ hostname}}.{{ domain}}'
