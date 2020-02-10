@@ -58,7 +58,6 @@ Hieronder ziet u de layout van de git repo.
 │       ├── handlers
 │       └── tasks
 ├── site.yml
-├── test.yml
 └── vars
     ├── env
     │   ├── acceptatie
@@ -76,7 +75,7 @@ Hieronder ziet u de layout van de git repo.
 
 ### Toelichting
 
-Hieronder ziet u een toelichting in de structuur van dit project:
+Hieronder ziet u een toelichting over de structuur van dit project:
 
 - **(FILE) site.yml**:
   De gebruiker dient site.yml te gebruiken om de orchestrator op te starten. site.yml is de start van de playbook. In de playbook worden de verschillende plays in de playbooks map aangeroepen, op basis van de informatie die de gebruiker aanlevert. Wanneer de playbook wordt gestart, krijgt de gebruiker eerst een aantal vragen:
@@ -87,6 +86,9 @@ Hieronder ziet u een toelichting in de structuur van dit project:
   - etc.
   
   Op basis van de informatie wordt een VM aangemaakt, aangepast of verwijderd. Zie [Usage](#Usage) voor het gebruik van site.yml.
+
+- **(FILE) ansible.cfg**:
+  Hierin staan de default ansible instellingen. Het aanpassen van deze configuratie file kan effect hebben op de werking van de playbooks!
 
 - **(MAP) inventories**: 
   Hierin komt een inventory file voor alle virtuele machines die gemaakt worden. De inventory file zal ook dienen als 'bron van waarheid'. Bijvoorbeeld: Als haproxy informatie nodig heeft over zijn backend web servers, dan zal de inventory file gebruikt worden voor die informatie. De virtuele machines die aangemaakt worden, komen in een apart categorie in de inventory file, afhankelijk van: bedrijf, rol en omgeving. Er wordt ook andere informatie in de inventory file neergezet per VM als variabel (zoals voornaam, bedrijfsnaam), maar de variabelen in de VM worden nu nog niet gebruikt.
