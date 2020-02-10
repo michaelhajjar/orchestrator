@@ -3,7 +3,7 @@
   set_fact:
     new_vm_name: "nee"
   when: new_vm_name_ts is not defined
-  
+
 - name: Wait for the virtual machine to shutdown
   vmware_guest_powerstate:
     hostname: "{{ vmware_host }}"
@@ -15,6 +15,7 @@
     state_change_timeout: 200
   register: vm_power_off
   when: memory != 'nee' or cpu != 'nee'
+  ignore_errors: True
 
 - name: Modify VM Memory
   vmware_guest:
@@ -74,6 +75,7 @@
     state: powered-on
     state_change_timeout: 200
   when: memory != 'nee' or cpu != 'nee'
+  ignore_errors: True
 
 - name: Get VM uuid
   vmware_guest_facts:
