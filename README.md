@@ -16,7 +16,7 @@ De playbooks zijn getest met de volgende configuratie:
 Hieronder ziet u de layout van de git repo.
 
 ```
-[root@ansible orchestrator]# tree
+[root@ansible orchestrator]# tree -L 3
 .
 ├── ansible.cfg
 ├── inventories
@@ -24,70 +24,29 @@ Hieronder ziet u de layout van de git repo.
 ├── playbooks
 │   └── vmware
 │       └── vm
-│           ├── create.yml
-│           ├── delete.yml
-│           └── modify.yml
 ├── README.md
 ├── roles
 │   ├── db
 │   │   ├── defaults
-│   │   │   └── main.yml
 │   │   ├── files
-│   │   │   ├── etc_my.cnf.d_custom.cnf.j2
-│   │   │   ├── etc_my.cnf.d_network.cnf.j2
-│   │   │   ├── etc_my.cnf.d_server.cnf.j2
-│   │   │   └── sample-db.sql
 │   │   ├── handlers
-│   │   │   └── main.yml
 │   │   └── tasks
-│   │       ├── databases.yml
-│   │       └── main.yml
 │   ├── lb
 │   │   ├── defaults
-│   │   │   └── main.yml
 │   │   ├── files
-│   │   │   └── haproxy.cfg.j2
 │   │   ├── handlers
-│   │   │   └── main.yml
 │   │   └── tasks
-│   │       └── main.yml
 │   ├── php
 │   │   ├── files
-│   │   │   ├── create.php
-│   │   │   ├── css
-│   │   │   │   ├── bootstrap.css
-│   │   │   │   ├── bootstrap.min.css
-│   │   │   │   ├── bootstrap-responsive.css
-│   │   │   │   └── bootstrap-responsive.min.css
-│   │   │   ├── database.php
-│   │   │   ├── img
-│   │   │   │   ├── glyphicons-halflings.png
-│   │   │   │   └── glyphicons-halflings-white.png
-│   │   │   ├── index.php
-│   │   │   ├── js
-│   │   │   │   ├── bootstrap.js
-│   │   │   │   └── bootstrap.min.js
-│   │   │   └── read.php
 │   │   ├── handlers
-│   │   │   └── main.yml
 │   │   └── tasks
-│   │       └── main.yml
 │   ├── vmware
 │   │   └── tasks
-│   │       ├── create_sub_folder.yml
-│   │       ├── create_vm.yml
-│   │       ├── remove_vm.yml
-│   │       └── set_vm_attributes.yml
 │   └── web
 │       ├── defaults
-│       │   └── main.yml
 │       ├── files
-│       │   ├── etc_httpd_conf.d_status.conf.j2
-│       │   └── httpd.conf.j2
 │       ├── handlers
-│       │   └── main.yml
 │       └── tasks
-│           └── main.yml
 ├── site.yml
 ├── test.yml
 └── vars
@@ -102,10 +61,7 @@ Hieronder ziet u de layout van de git repo.
         ├── micro.2
         ├── n.v.t.
         └── small.1
-
-32 directories, 52 files
 ```
-
 
 ## Prerequesites
 ``` 
