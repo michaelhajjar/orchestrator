@@ -102,9 +102,29 @@
       when: final_vm_list == [] and operation == 'delete' 
 
     - pause:
-        prompt: "Welke VM wilt u aanpassen?: {{ final_vm_list }}"
-      register: modify_which_vm
+        prompt: "Welke VM wilt u aanpassen?:\n{{ final_vm_list|to_nice_yaml }}\n"
+      register: vm_to_modify
       when: operation == 'modify'
+
+    - pause:
+        prompt: "Wat moet aangepast worden?:\n- Naam van de VM   (typ naam) \n- aantal CPU cores (typ cpu) \n- aantal memory    (typ memory)\n"
+      register: what_to_modify
+      when: operation == 'modify'
+
+    - pause:
+        prompt: "Hoe moet de nieuwe VM heten?\n"
+      register: new_vm_name
+      when: operation == 'modify' and what_to_modify.user_input == 'naam'
+
+    - pause:
+        prompt: "Hoeveel CPU cores moet de VM krijgen?\n"
+      register: cpu_cores
+      when: operation == 'modify' and what_to_modify.user_input == 'cpu'
+
+    - pause:
+        prompt: "Hoeveel memory (in MB) moet de VM krijgen?\n"
+      register: memory_mb
+      when: operation == 'modify' and what_to_modify.user_input == 'memory'
 
     - name: Run operation create 
       include: "./playbooks/{{ platform }}/vm/create.yml"
@@ -113,7 +133,12 @@
 
     - name: Run operation modify 
       include: "./playbooks/{{ platform }}/vm/modify.yml"
-      when: operation == 'modify2'
+      when: operation == 'modify'
+      vars:
+        hostname: '{{ vm_to_modify.user_input }}'
+        new_vm_name: '{{ new_vm_name.user_input|default('') }}'
+        cpu: '{{ cpu_cores.user_input|default('') }}'
+        memory: '{{ memory_mb.user_input|default('') }}'
 
     - name: Run operation delete 
       include: "./playbooks/{{ platform }}/vm/delete.yml"

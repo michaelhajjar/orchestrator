@@ -1,0 +1,84 @@
+---
+- name: Wait for the virtual machine to shutdown
+  vmware_guest_powerstate:
+    hostname: "{{ vmware_host }}"
+    username: "{{ vmware_user }}"
+    password: "{{ vmware_password }}"
+    validate_certs: "{{ vmware_validate }}"
+    name: "{{ hostname }}"
+    state: shutdown-guest
+    state_change_timeout: 200
+  register: vm_power_off
+  when: memory != '' or cpu != ''
+
+- name: Modify VM Memory
+  vmware_guest:
+    hostname: "{{ vmware_host }}"
+    username: "{{ vmware_user }}"
+    password: "{{ vmware_password }}"
+    validate_certs: "{{ vmware_validate }}"
+    folder: "{{ vmware_folder }}/{{ bedrijfsnaam }}"
+    datacenter: "{{ vmware_datacenter }}"
+    name: "{{ hostname }}"
+    state: present
+    hardware:
+      memory_mb: "{{ memory|int }}"
+      scsi: paravirtual
+    cdrom:
+      type: none
+      state: absent
+    networks:
+    - name: "{{ vmware_network }}"
+      device_type: vmxnet3
+      start_connected: True
+    wait_for_ip_address: yes
+  register: virtualmachinecreated
+  when: memory != ''
+
+- name: Modify VM CPU
+  vmware_guest:
+    hostname: "{{ vmware_host }}"
+    username: "{{ vmware_user }}"
+    password: "{{ vmware_password }}"
+    validate_certs: "{{ vmware_validate }}"
+    folder: "{{ vmware_folder }}/{{ bedrijfsnaam }}"
+    datacenter: "{{ vmware_datacenter }}"
+    name: "{{ hostname }}"
+    state: present
+    hardware:
+      num_cpus: "{{ cpu|int }}"
+      scsi: paravirtual
+    cdrom:
+      type: none
+      state: absent
+    networks:
+    - name: "{{ vmware_network }}"
+      device_type: vmxnet3
+      start_connected: True
+    wait_for_ip_address: yes
+  register: virtualmachinecreated
+  when: cpu != ''
+
+- name: Get VM uuid
+  vmware_guest_facts:
+    hostname: "{{ vmware_host }}"
+    username: "{{ vmware_user }}"
+    password: "{{ vmware_password }}"
+    validate_certs: "{{ vmware_validate }}"
+    folder: "{{ vmware_folder }}/{{ bedrijfsnaam }}"
+    datacenter: "{{ vmware_datacenter }}"
+    name: "{{ hostname }}"
+  register: vm_facts
+  when: new_vm_name != ''
+
+- name: Rename "{{ hostname }}" to "{{ new_vm_name }}"
+  vmware_guest:
+    hostname: "{{ vmware_host }}"
+    username: "{{ vmware_user }}"
+    password: "{{ vmware_password }}"
+    validate_certs: "{{ vmware_validate }}"
+    folder: "{{ vmware_folder }}/{{ bedrijfsnaam }}"
+    datacenter: "{{ vmware_datacenter }}"
+    uuid: "{{ vm_facts.instance.hw_product_uuid }}"
+    name: "{{ new_vm_name }}"
+  when: new_vm_name != ''

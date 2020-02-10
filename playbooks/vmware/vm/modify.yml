@@ -1,0 +1,5 @@
+---
+- name: Modify the VM
+  include_role:
+    name: vmware
+    tasks_from: modify_vm
