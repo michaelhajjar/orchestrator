@@ -1,20 +1,28 @@
 ## Table of Contents
 0. [About](#About)
-1. [Requirements](#Requirements)
-2. [Layout](#Layout)
-3. [Toelichting](#Toelichting)
-4. [Prerequesites](#Prerequesites)
-5. [Usage](#Usage)
-6. [Debug](#Debug)
-7. [Sources](#Sources)
+1. [Status](#Status)
+2. [Requirements](#Requirements)
+3. [Layout](#Layout)
+4. [Toelichting](#Toelichting)
+5. [Prerequesites](#Prerequesites)
+6. [Usage](#Usage)
+7. [Debug](#Debug)
+8. [Sources](#Sources)
+
 
 ### About
-
 Ansible orchestrator is een school opdracht. De bedoeling is om via Ansible automatisch een VM aan te maken, aanpassen of verwijderen. Het opzetten van VMWare zelf en het maken van templates is buiten de scope van dit project. 
 
 
-### Requirements
+### Status
+De volgende functies zijn geïmplementeerd:
 
+**VMWare**
+- Aanmaken van een of meerdere VM's
+- Verwijderen van een of meerdere VM's
+
+
+### Requirements
 De playbooks zijn getest met de volgende configuratie:
 
 - Centos 7.7.1908 (OS en template)
@@ -25,7 +33,6 @@ De playbooks zijn getest met de volgende configuratie:
 
 
 ### Layout
-
 Hieronder ziet u de layout van de git repo.
 
 ```
@@ -77,7 +84,6 @@ Hieronder ziet u de layout van de git repo.
 
 
 ### Toelichting
-
 Hieronder ziet u een toelichting over de structuur van dit project:
 
 - **(FILE) site.yml**:
@@ -107,7 +113,6 @@ Hieronder ziet u een toelichting over de structuur van dit project:
 
 
 ### Prerequisites
-
 Installeer de packages die nodig zijn, voer de stappen hieronder uit als root:
 
 1. Installeer CentOS 7, gevolgd door een yum update/yum upgrade
@@ -143,7 +148,6 @@ localhost ansible_connection=local ansible_python_interpreter=/usr/bin/python3
 
 
 ### Usage
-
 Voer de volgende commando uit in de root van dit project (als root user):
 
 ```
@@ -159,7 +163,6 @@ U hoeft voor de rest niks te doen, uiteindelijk krijgt u de output terug van de 
 
 
 ### Debug
-
 Gebruik de volgende commando om te debuggen:
 
 ```
@@ -168,7 +171,6 @@ ansible-playbook site.yml -vvvv
 
 
 ### Sources
-
 De volgende bronnen zijn geraadpleegd:
 
 - Sample PHP APP: https://www.startutorial.com/articles/view/php-crud-tutorial-part-2
