@@ -9,13 +9,15 @@
 7. [Sources](#Sources)
 
 ### About
-Ansible orchestrator is een school opdracht, voor VM2. De bedoeling is om via Ansible automatisch een VM aan te maken.
+
+Ansible orchestrator is een school opdracht, voor VM2. De bedoeling is om via Ansible automatisch een VM aan te maken. Het opzetten van VMWare zelf en het maken van templates is buiten de scope van dit project. 
 
 
 ### Requirements
+
 De playbooks zijn getest met de volgende configuratie:
 
-- Centos 7.7.1908
+- Centos 7.7.1908 (OS en template)
 - Ansible 2.9.4 (python 3)
 - pyvmomi 6.7 (python 3)
 - uuidgen
@@ -23,6 +25,7 @@ De playbooks zijn getest met de volgende configuratie:
 
 
 ### Layout
+
 Hieronder ziet u de layout van de git repo.
 
 ```
@@ -100,10 +103,11 @@ Hieronder ziet u een toelichting over de structuur van dit project:
   In deze map komen alle rollen. Een rol is een verzameling van herbruikbare taken. 
 
 - **(MAP) vars**:
-  In deze map komen alle globale variabelen te staan. Denk hierbij aan de variabelen per omgeving en flavors (cpu, memory en disk).
+  In deze map komen alle globale variabelen te staan. Denk hierbij aan de variabelen per omgeving en flavors (cpu, memory en disk). de env/all wordt als eerst ingeladen, hierna de env/omgeving. Als in env/all de variabel 'cpu' is gedefineerd en ook in de env/omgeving, dan wordt de env/all 'cpu' variabel overschreven door de env/omgeving variabel.
 
 
 ### Prerequisites
+
 Installeer de packages die nodig zijn, voer de stappen hieronder uit als root:
 
 1. Installeer CentOS 7, gevolgd door een yum update/yum upgrade
@@ -119,28 +123,45 @@ yum install python3 python3-pip -y
 ```
 pip3 install ansible pyvmomi
 ```
-4. Clone dit project en pas de env variabelen in in map vars/env/.
-5. Maak een map genaamd 'inventories' en maak hierin een file aan genaamd 'provisioner.ini'. 
+4. Maak een service account aan, voor het inloggen op de servers. Maak ook gelijk een SSH-key aan (RSA 4096 bit of ed25519).
+```
+useradd ansible_provisioner
+ssh-keygen -t rsa -b 4096
+```
+5. Zorg ervoor dat er een centos7 template bestaat in de VMWare omgeving met de public key van de SSH-key die in stap 4 is gegenereerd.
+   Zie comando hieronder voor de output van de SSH public key. 
+```
+cat /home/ansible_provisioner/.ssh/id_rsa.pub
+```
+5. Clone dit project en pas de env variabelen aan in vars/env/.  
+6. Maak een map genaamd 'inventories' en maak hierin een file aan genaamd 'provisioner.ini'. 
    Zorg ervoor dat de volgende regel in de file komt:
 ```
 localhost ansible_connection=local ansible_python_interpreter=/usr/bin/python3
 ```
+6. Ga naar [Usage](#Usage)
+
 
 ### Usage
-Voer de volgende commando uit:
+
+Voer de volgende commando uit in de root van dit project (als root user):
 
 ```
 ansible-playbook site.yml
 ```
 
+
 ### Debug
+
 Gebruik de volgende commando om te debuggen:
 
 ```
 ansible-playbook site.yml -vvvv
 ```
 
+
 ### Sources
+
 De volgende bronnen zijn geraadpleegd:
 
 - Sample PHP APP: https://www.startutorial.com/articles/view/php-crud-tutorial-part-2
