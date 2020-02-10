@@ -119,23 +119,25 @@
     - name: Run operation delete 
       include: "./playbooks/{{ platform }}/vm/delete.yml"
       loop: '{{ final_vm_list }}'
-      when: operation == 'delete'Welkom01!
+      when: operation == 'delete'
+
+    - meta: refresh_inventory
 
 - name: Configure the database servers
-  hosts: '{{ bedrijfsnaam }}_db_{{ omgeving }}'
+  hosts: "{{ hostvars['localhost']['bedrijfsnaam'] }}_db_{{ hostvars['localhost']['omgeving'] }}"
   become: True
   roles:
     - db
 
 - name: Configure the web servers
-  hosts: '{{ bedrijfsnaam }}_web_{{ omgeving }}'
+  hosts: "{{ hostvars['localhost']['bedrijfsnaam'] }}_web_{{ hostvars['localhost']['omgeving'] }}"
   become: True
   roles:
     - web
     - php
 
 - name: Configure the LB servers
-  hosts: '{{ bedrijfsnaam }}_lb_{{ omgeving }}'
+  hosts: "{{ hostvars['localhost']['bedrijfsnaam'] }}_lb_{{ hostvars['localhost']['omgeving'] }}"
   become: True
   roles:
     - lb
