@@ -10,7 +10,7 @@
 
 ### About
 
-Ansible orchestrator is een school opdracht, voor VM2. De bedoeling is om via Ansible automatisch een VM aan te maken. Het opzetten van VMWare zelf en het maken van templates is buiten de scope van dit project. 
+Ansible orchestrator is een school opdracht. De bedoeling is om via Ansible automatisch een VM aan te maken, aanpassen of verwijderen. Het opzetten van VMWare zelf en het maken van templates is buiten de scope van dit project. 
 
 
 ### Requirements
@@ -149,6 +149,13 @@ Voer de volgende commando uit in de root van dit project (als root user):
 ```
 ansible-playbook site.yml
 ```
+
+Vul hierna alle prompts in. De vragen kunnen verschillen per actie (aanmaken, aanpassen of verwijderen).
+U hoeft voor de rest niks te doen, uiteindelijk krijgt u de output terug van de actie die u heeft gekozen.
+
+- Aanmaken geeft als output de nieuw aangemaakte VM's.
+- Aanpassen laat zien welke VM's zijn aangepast.
+- Verwijderen laat zien welke VM's zijn verwijderd.
 
 
 ### Debug
