@@ -136,7 +136,6 @@
       when: operation == 'modify'
       vars:
         hostname: '{{ vm_to_modify.user_input }}'
-        new_vm_name: "{{ new_vm_name_ts.user_input|default('nee') }}"
         cpu: "{{ cpu_cores.user_input|default('nee') }}"
         memory: "{{ memory_mb.user_input|default('nee') }}"
 
