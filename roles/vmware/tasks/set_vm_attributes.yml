@@ -1,0 +1,17 @@
+- name: Add virtual machine custom attributes
+  vmware_guest_custom_attributes:
+    hostname: "{{ vmware_host }}"
+    username: "{{ vmware_user }}"
+    password: "{{ vmware_password }}"
+    validate_certs: "{{ vmware_validate }}"
+    name: "{{ hostname }}"
+    state: present
+    attributes:
+      - name: 'Aangevraagd_door'
+        value: '{{ voornaam }} {{ achternaam }}'
+      - name: 'Bedrijf'
+        value: '{{ bedrijfsnaam }}'
+      - name: 'Rol'
+        value: '{{ rol.user_input }}'
+      - name: 'Datum aangemaakt'
+        value: "{{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }}"

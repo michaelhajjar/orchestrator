@@ -47,6 +47,11 @@
   vars:
     ansible_python_interpreter: /usr/bin/python
 
+- name: Set attributes on the VM
+  include_role:
+    name: vmware
+    tasks_from: set_vm_attributes
+
 - name: Append VM info in final dict
   set_fact:
     vm_created: "{{ final_vm_created + [vm_created] }}"
