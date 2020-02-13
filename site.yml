@@ -99,12 +99,18 @@
 
     - fail:
         msg: Er zijn geen virtuele machines voor het bedrijf '{{ bedrijfsnaam }}' volgens onze gegevens. Voer de Orchestrator opnieuw uit.
-      when: final_vm_list == [] and operation == 'delete' 
+      when: (final_vm_list == [] and operation == 'delete') or (final_vm_list == [] and operation == 'modify')
 
     - pause:
-        prompt: "Welke VM wilt u aanpassen?:\n{{ final_vm_list|to_nice_yaml }}\n"
+        prompt: "Welke VM wilt u aanpassen of verwijderen?:\n{{ final_vm_list|to_nice_yaml }}\n"
       register: vm_to_modify
-      when: operation == 'modify'
+      when: operation == 'modify' or (operation == 'delete' and yes_to_all_vm_delete.user_input|default('nee') != 'nee')
+
+    - name: Set default facts for deleting VM
+      set_fact:
+        final_vm_list: '{{ vm_to_modify.user_input }}'
+      register: vm_to_modify
+      when: vm_to_modify is defined
 
     - pause:
         prompt: "Wat moet aangepast worden?:\n- Naam van de VM   (typ naam) \n- aantal CPU cores (typ cpu) \n- aantal memory    (typ memory)\n"
@@ -144,7 +150,7 @@
     - name: Run operation delete 
       include: "./playbooks/{{ platform }}/vm/delete.yml"
       loop: '{{ final_vm_list }}'
-      when: operation == 'delete'
+      when: (operation == 'delete' and yes_to_all_vm_delete.user_input == 'ja') or (operation == 'delete' and vm_to_modify.user_input|default('') != '')
 
     - meta: refresh_inventory
 
