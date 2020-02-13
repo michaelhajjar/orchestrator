@@ -110,7 +110,7 @@
     - pause:
         prompt: "Welke VM wilt u aanpassen of verwijderen?:\n{{ final_vm_list|to_nice_yaml }}\n"
       register: vm_to_modify
-      when: operation == 'modify' or (operation == 'delete' and yes_to_all_vm_delete != 'nee')
+      when: operation == 'modify' or (operation == 'delete' and yes_to_all_vm_delete == 'nee')
 
     - name: Set default facts for '{{ operation }}' VM
       set_fact:
@@ -156,7 +156,7 @@
     - name: Run operation delete 
       include: "./playbooks/{{ platform }}/vm/delete.yml"
       loop: '{{ final_vm_list }}'
-      when: (operation == 'delete' and yes_to_all_vm_delete == 'ja') or (operation == 'delete' and vm_to_modify.user_input|default('') != '')
+      when: (operation == 'delete' and yes_to_all_vm_delete == 'ja') or (operation == 'delete' and vm_to_modify != '')
 
     - meta: refresh_inventory
 
