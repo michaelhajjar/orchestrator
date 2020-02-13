@@ -114,7 +114,7 @@
 
     - name: Set default facts for '{{ operation }}' VM
       set_fact:
-        final_vm_list: '[{{ vm_to_modify.user_input|list }}]'
+        final_vm_list: ['{{ vm_to_modify.user_input|list }}']
       register: vm_to_modify
       when: vm_to_modify is defined
 
