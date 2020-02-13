@@ -115,7 +115,7 @@
     - name: Set default fact for '{{ operation }}' VM
       set_fact:
         final_vm_list: ['{{ vm_to_modify.user_input }}']
-      when: vm_to_modify is defined
+      when: operation == 'modify' or (vm_to_modify.user_input is defined and operation == 'delete')
 
     - pause:
         prompt: "Wat moet aangepast worden?:\n- Naam van de VM   (typ naam) \n- aantal CPU cores (typ cpu) \n- aantal memory    (typ memory)\n"
