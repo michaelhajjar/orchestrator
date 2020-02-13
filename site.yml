@@ -108,7 +108,7 @@
       when: (final_vm_list == [] and operation == 'delete') or (final_vm_list == [] and operation == 'modify')
 
     - pause:
-        prompt: "Welke VM wilt u aanpassen of verwijderen?:\n{{ final_vm_list|to_nice_yaml }}\n"
+        prompt: "Welke VM wilt u aanpassen of verwijderen?:\n\n{{ final_vm_list|to_nice_yaml }}\n"
       register: vm_to_modify
       when: operation == 'modify' or (operation == 'delete' and yes_to_all_vm_delete == 'nee')
 
