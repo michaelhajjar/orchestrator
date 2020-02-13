@@ -112,10 +112,9 @@
       register: vm_to_modify
       when: operation == 'modify' or (operation == 'delete' and yes_to_all_vm_delete == 'nee')
 
-    - name: Set default facts for '{{ operation }}' VM
+    - name: Set default fact for '{{ operation }}' VM
       set_fact:
         final_vm_list: ['{{ vm_to_modify.user_input }}']
-      register: vm_to_modify
       when: vm_to_modify is defined
 
     - pause:
