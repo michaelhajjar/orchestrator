@@ -4,6 +4,14 @@
     name: vmware
     tasks_from: modify_vm
 
+- name: Wait 300 seconds for port 22 to become open and contain "OpenSSH"
+  wait_for:
+    port: 22
+    host: "{{ hostvars[old_fqdn]['ansible_host']}}"
+    search_regex: OpenSSH
+    delay: 10
+  connection: local
+
 - name: Add the VM to a in-memory inventory
   add_host:
     name: "{{ hostvars[old_fqdn]['ansible_host']}}"
