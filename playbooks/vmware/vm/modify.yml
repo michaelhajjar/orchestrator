@@ -20,7 +20,7 @@
     ansible_become: true
 
 - name: set fqdn in OS
-  command: hostnamectl set-hostname '{{ hostname}}.{{ domain}}'
+  command: hostnamectl set-hostname '{{ new_vm_name }}.{{ domain}}'
   register: hostnamecmd
   delegate_to: "{{ hostvars[old_fqdn]['ansible_host']}}"
   when: new_vm_name != 'nee'
