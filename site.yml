@@ -52,6 +52,7 @@
         aantal_instanties: "{{ menu_instances.user_input|default('0') }}"
         final_vm_list: []
         final_vm_created: []
+        yes_to_all_vm_delete: 'nee'
 
     - pause:
         prompt: "\nU heeft de volgende informatie ingevoerd, is dit correct (typ ja of nee): \n\nVoornaam: {{ voornaam }} \nAchternaam: {{ achternaam }} \nBedrijfsnaam: {{ bedrijfsnaam }} \nOmgeving: {{ omgeving }} \nPlatform: {{ platform }} \nFlavor: {{ flavor }} \nActie: {{ operation }} VM \nAantal instanties: {{ aantal_instanties }}\n"
@@ -97,6 +98,11 @@
       register: yes_to_all_vm_delete
       when: operation == 'delete'
 
+    - name: Set yes_to_all_vm_delete fact if defined
+      set_fact:
+        yes_to_all_vm_delete: 'ja'
+      when: yes_to_all_vm_delete.user_input is defined and yes_to_all_vm_delete.user_input == 'ja' and operation == 'delete'
+
     - fail:
         msg: Er zijn geen virtuele machines voor het bedrijf '{{ bedrijfsnaam }}' volgens onze gegevens. Voer de Orchestrator opnieuw uit.
       when: (final_vm_list == [] and operation == 'delete') or (final_vm_list == [] and operation == 'modify')
@@ -104,7 +110,7 @@
     - pause:
         prompt: "Welke VM wilt u aanpassen of verwijderen?:\n{{ final_vm_list|to_nice_yaml }}\n"
       register: vm_to_modify
-      when: operation == 'modify' or (operation == 'delete' and yes_to_all_vm_delete.user_input|default('nee') != 'nee')
+      when: operation == 'modify' or (operation == 'delete' and yes_to_all_vm_delete != 'nee')
 
     - name: Set default facts for deleting VM
       set_fact:
@@ -150,7 +156,7 @@
     - name: Run operation delete 
       include: "./playbooks/{{ platform }}/vm/delete.yml"
       loop: '{{ final_vm_list }}'
-      when: (operation == 'delete' and yes_to_all_vm_delete.user_input == 'ja') or (operation == 'delete' and vm_to_modify.user_input|default('') != '')
+      when: (operation == 'delete' and yes_to_all_vm_delete == 'ja') or (operation == 'delete' and vm_to_modify.user_input|default('') != '')
 
     - meta: refresh_inventory
 
