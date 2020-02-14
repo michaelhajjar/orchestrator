@@ -113,7 +113,7 @@ Hieronder ziet u een toelichting over de structuur van dit project:
 - **(MAP) vars**:
   In deze map komen alle globale variabelen te staan. Denk hierbij aan de variabelen per omgeving en flavors (cpu, memory en disk). de env/all wordt als eerst ingeladen, hierna de env/omgeving. Als in env/all de variabel 'cpu' is gedefineerd en ook in de env/omgeving, dan wordt de env/all 'cpu' variabel overschreven door de env/omgeving variabel.
 
-  Er zijn 4 omgevingen gemaakt, volgens OTAP: Ontwikkel (O), Test (T), Acceptatie (A) en Productie (P). De reden hiervoor is om de eindgebruiker de mogelijkheid te geven om op verschillende omgevingen virtuele machines uit te rollen en de variabelen specifiek neer te zetten voor de specifieke omgevingen. Dit is gedaan met security in gedachte (productie moet niet dezelfde infrastructuur gebruiken als test). De specifieke variabelen kunnen het volgende zijn als voorbeeld:
+  Er zijn 4 omgevingen gemaakt, volgens OTAP: Ontwikkel (O), Test (T), Acceptatie (A) en Productie (P). De reden hiervoor is om de eindgebruiker de mogelijkheid te geven om op verschillende omgevingen virtuele machines uit te rollen en de variabelen specifiek neer te zetten voor de specifieke omgevingen. Dit is gedaan met security in gedachte (productie moet niet dezelfde infrastructuur gebruiken als test). De specifieke variabelen kunnen het volgende zijn (als voorbeeld):
 
   - ansible_ssh_private_key (per omgeving een andere private SSH key)
   - ansible_ssh_user (aparte gebruikers per omgeving om te verbinden met de servers)
