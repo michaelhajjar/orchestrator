@@ -111,6 +111,14 @@ Hieronder ziet u een toelichting over de structuur van dit project:
 - **(MAP) vars**:
   In deze map komen alle globale variabelen te staan. Denk hierbij aan de variabelen per omgeving en flavors (cpu, memory en disk). de env/all wordt als eerst ingeladen, hierna de env/omgeving. Als in env/all de variabel 'cpu' is gedefineerd en ook in de env/omgeving, dan wordt de env/all 'cpu' variabel overschreven door de env/omgeving variabel.
 
+  Er zijn 4 omgevingen gemaakt, volgens OTAP: Ontwikkel (O), Test (T), Acceptatie (A) en Productie (P). De reden hiervoor is om de eindgebruiker de mogelijkheid te geven om op verschillende omgevingen virtuele machines uit te rollen en de variabelen specifiek neer te zetten voor de specifieke omgevingen. Dit is gedaan met security in gedachte (productie moet niet dezelfde infrastructuur gebruiken als test). De specifieke variabelen kunnen het volgende zijn als voorbeeld:
+
+  - ansible_ssh_private_key (per omgeving een andere private SSH key)
+  - ansible_ssh_user (aparte gebruikers per omgeving om te verbinden met de servers)
+
+  **In de vars kunnen ook gevoelige gebruikers/wachtwoorden AES256 geencrypt worden (voor VMWare bijvoorbeeld).**
+  De standaard wachtwoord voor de vault is: Welkom01
+  
 
 ### Prerequisites
 Installeer de packages die nodig zijn, voer de stappen hieronder uit als root:
@@ -144,7 +152,11 @@ cat /home/ansible_provisioner/.ssh/id_rsa.pub
 ```
 localhost ansible_connection=local ansible_python_interpreter=/usr/bin/python3
 ```
-6. Ga naar [Usage](#Usage)
+7. Maak een vault pw file aan in /root/vault_pw.txt
+```
+echo "Welkom01" > /root/vault_pw.txt 
+```
+8. Ga naar [Usage](#Usage)
 
 
 ### Usage
