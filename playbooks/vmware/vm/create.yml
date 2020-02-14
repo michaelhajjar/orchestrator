@@ -1,14 +1,10 @@
 --- 
-- pause:
-    prompt: "Welke rol heeft VM {{ item }}?: \n\n- webserver (typ web) \n- database  (typ db) \n- load balancer  (typ lb) \n"
-  register: rol
-
 - name: Generate uuid for hostname of server
   command: uuidgen
   register: randomuuidgen
 
 - set_fact:
-    hostname: '{{ naming_convention }}{{ rol.user_input }}_{{ bedrijfsnaam }}_{{ randomuuidgen.stdout|lower }}'
+    hostname: '{{ naming_convention }}{{ rol }}_{{ bedrijfsnaam }}_{{ randomuuidgen.stdout|lower }}'
 
 - name: Create sub folder if it does not exist
   include_role:
@@ -27,20 +23,20 @@
 - name: Add the new VM to a in-memory inventory
   add_host:
     name: '{{ virtualmachinecreated.instance.ipv4 }}'
-    groups: '{{ bedrijfsnaam }}_{{ rol.user_input }}_{{ omgeving }}'
+    groups: '{{ bedrijfsnaam }}_{{ rol }}_{{ omgeving }}'
     ansible_ssh_user: '{{ ansible_ssh_user }}'
     ansible_ssh_private_key: '{{ ansible_ssh_private_key }}'
     ansible_become: true
 
 - name: set fqdn in OS
-  command: hostnamectl set-hostname '{{ hostname}}.{{ domain}}'
+  command: hostnamectl set-hostname '{{ hostname }}.{{ domain}}'
   register: hostnamecmd
   delegate_to: '{{ virtualmachinecreated.instance.ipv4 }}'
 
-- name: Ensure that '{{ hostname }}' is in '{{ rol.user_input }}' section of the inventory file 
+- name: Ensure that '{{ hostname }}' is in '{{ rol }}' section of the inventory file 
   ini_file:
     path: './inventories/provisioner.ini'
-    section: '{{ bedrijfsnaam }}_{{ rol.user_input }}_{{ omgeving }}'
+    section: '{{ bedrijfsnaam }}_{{ rol }}_{{ omgeving }}'
     option: '{{ hostname}}.{{ domain}} ansible_host={{ virtualmachinecreated.instance.ipv4 }} ansible_ssh_user={{ ansible_ssh_user }} ansible_ssh_private_key={{ ansible_ssh_private_key }} platform={{ platform }} bedrijf={{ bedrijfsnaam }} aanvrager={{ voornaam }}'
     allow_no_value: yes
     create: yes

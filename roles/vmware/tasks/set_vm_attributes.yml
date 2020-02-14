@@ -12,6 +12,6 @@
       - name: 'Bedrijf'
         value: '{{ bedrijfsnaam }}'
       - name: 'Rol'
-        value: '{{ rol.user_input }}'
+        value: '{{ rol }}'
       - name: 'Datum aangemaakt'
         value: "{{ lookup('pipe','date +%Y-%m-%d-%H-%M-%S') }}"

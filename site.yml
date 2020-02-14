@@ -94,6 +94,12 @@
       ignore_errors: True
 
     - pause:
+        prompt: "Welke rol heeft VM {{ item }}?: \n\n- webserver (typ web) \n- database  (typ db) \n- load balancer  (typ lb) \n"
+      register: vm_asked_questions
+      with_sequence: count='{{ aantal_instanties }}'
+      when: operation == 'create'
+
+    - pause:
         prompt: "Wilt u alle servers verwijderen voor bedrijf: {{ bedrijfsnaam }} in omgeving: {{ omgeving }}? (typ ja of nee)"
       register: yes_to_all_vm_delete
       when: operation == 'delete'
@@ -139,8 +145,10 @@
       
     - name: Run operation create 
       include: "./playbooks/{{ platform }}/vm/create.yml"
-      with_sequence: count='{{ aantal_instanties }}'
+      with_sequence: count='{{ vm_asked_questions.results }}'
       when: operation == 'create'
+      vars:
+        rol: '{{ item.user_input }}'
 
     - name: Run operation modify 
       include: "./playbooks/{{ platform }}/vm/modify.yml"
