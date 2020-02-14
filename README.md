@@ -33,6 +33,7 @@ De playbooks zijn getest met de volgende configuratie:
 - VMWare Vcenter 6.7u1
 
 <div style="page-break-after: always;"></div>
+
 ### Layout
 Hieronder ziet u de layout van de git repo.
 
