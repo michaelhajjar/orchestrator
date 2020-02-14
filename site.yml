@@ -94,7 +94,7 @@
       ignore_errors: True
 
     - pause:
-        prompt: "Welke rol heeft VM {{ item }}?: \n\n- webserver (typ web) \n- database  (typ db) \n- load balancer  (typ lb) \n"
+        prompt: "Welke rol heeft VM {{ item }}?: \n\n- webserver (typ web) \n- database  (typ db) \n- load balancer  (typ lb) \n\n"
       register: vm_asked_questions
       with_sequence: count='{{ aantal_instanties }}'
       when: operation == 'create'
