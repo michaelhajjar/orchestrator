@@ -17,8 +17,9 @@ Ansible orchestrator is een school opdracht. De bedoeling is om via Ansible auto
 ### Status
 De volgende functies zijn geïmplementeerd:
 
-**VMWare**
+Platform VMWare
 - Aanmaken van een of meerdere VM's
+- Aanpassen van een VM
 - Verwijderen van een of meerdere VM's
 
 
@@ -31,7 +32,7 @@ De playbooks zijn getest met de volgende configuratie:
 - uuidgen
 - VMWare Vcenter 6.7u1
 
-\pagebreak
+<div style="page-break-after: always;"></div>
 ### Layout
 Hieronder ziet u de layout van de git repo.
 
@@ -81,7 +82,7 @@ Hieronder ziet u de layout van de git repo.
         ├── n.v.t.
         └── small.1
 ```
-\pagebreak
+<div style="page-break-after: always;"></div>
 
 ### Toelichting
 Hieronder ziet u een toelichting over de structuur van dit project:
@@ -119,7 +120,7 @@ Hieronder ziet u een toelichting over de structuur van dit project:
   **In de vars kunnen ook gevoelige gebruikers/wachtwoorden AES256 geencrypt worden (voor VMWare bijvoorbeeld).**
   De standaard wachtwoord voor de vault is: Welkom01
   
-\pagebreak
+<div style="page-break-after: always;"></div>
 ### Prerequisites
 Installeer de packages die nodig zijn, voer de stappen hieronder uit als root:
 
@@ -158,7 +159,7 @@ echo "Welkom01" > /root/vault_pw.txt
 ```
 8. Ga naar [Usage](#Usage)
 
-\pagebreak
+<div style="page-break-after: always;"></div>
 ### Usage
 Voer de volgende commando uit in de root van dit project (als root user):
 
