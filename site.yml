@@ -145,7 +145,7 @@
       
     - name: Run operation create 
       include: "./playbooks/{{ platform }}/vm/create.yml"
-      with_sequence: count='{{ vm_asked_questions.results }}'
+      with_items: '{{ vm_asked_questions.results }}'
       when: operation == 'create'
       vars:
         rol: '{{ item.user_input }}'
