@@ -122,6 +122,7 @@ Hieronder ziet u een toelichting over de structuur van dit project:
   De standaard wachtwoord voor de vault is: Welkom01
   
 <div style="page-break-after: always;"></div>
+
 ### Prerequisites
 Installeer de packages die nodig zijn, voer de stappen hieronder uit als root:
 
@@ -161,6 +162,7 @@ echo "Welkom01" > /root/vault_pw.txt
 8. Ga naar [Usage](#Usage)
 
 <div style="page-break-after: always;"></div>
+
 ### Usage
 Voer de volgende commando uit in de root van dit project (als root user):
 
